@@ -26,6 +26,7 @@ public class MainActivity extends ActionBarActivity {
     private EditText editText;
     public MediaRecorder recorder;
     private String outputFile = null;
+    private String oF = null;
     private String fileName = null;
     private Button play;
     private SQLiteDatabase mydatabase;
@@ -33,43 +34,49 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound.aac";
+
+        oF = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound.aac";
         context = this;
-        recorder= new MediaRecorder();
+
         mydatabase = openOrCreateDatabase("song database",MODE_PRIVATE,null);
         btnSave = (Button)findViewById(R.id.btnSave);
         play = (Button)findViewById(R.id.play);
         editText = (EditText)findViewById(R.id.username);
         editText.setText(getText("username"));
-        recorder.reset();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
-        recorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        recorder.setOutputFile(outputFile);
+
 
         btnSave.setText("Record");
-        //mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo(ID INTEGER AUTOINCREMENT,Filename VARCHAR,Name VARCHAR);");
-        //mydatabase.execSQL("CREATE TABLE IF NOT EXISTS TagTable(Filename VARCHAR,Type VARCHAR,Start VARCHAR,End VARCHAR);");
-        //Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo",null);
-        //resultSet.moveToFirst();
-        //String id = resultSet.getString(1);
-        //if(id == null){
-        //    id = "1";
-        //}f
-        String id = "1";
-
-
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo(ID INTEGER,Filename VARCHAR,Name VARCHAR);");
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS TagTable(Filename VARCHAR,Type VARCHAR,Start VARCHAR,End VARCHAR);");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveText("username", editText.getText().toString());
                 fileName = editText.getText().toString();
                 if (btnSave.getText() == "Record") {
+                    recorder= new MediaRecorder();
+                    recorder.reset();
+                    recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                    recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+                    recorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+
+                    Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo",null);
+                    //resultSet.getString(resultSet.getColumnIndex("ID"));
+                    resultSet.moveToFirst();
+
+                    String id = resultSet.getString(0);
+                    /*if(id == null){
+                        id = "1";
+                    }*/
+
+                    outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound "+id+".aac";
+                    recorder.setOutputFile(outputFile);
+
                     start(v);
                     btnSave.setText("Stop");
                 } else {
                     stop(v);
-                    //mydatabase.execSQL("INSERT INTO SoundInfo (Filename, Name) VALUES ('"+outputFile+"','"+fileName+"');;");
+                    mydatabase.execSQL("INSERT INTO SoundInfo (ID,Filename, Name) VALUES ((SELECT max(ID) FROM SoundInfo)+1,'"+outputFile+"','"+fileName+"');;");
 
                     btnSave.setText("Record");
                 }
