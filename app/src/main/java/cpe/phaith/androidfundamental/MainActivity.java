@@ -48,8 +48,18 @@ public class MainActivity extends ActionBarActivity {
         btnSave.setText("Record");
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo(ID INTEGER,Filename VARCHAR,Name VARCHAR);");
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS TagTable(Filename VARCHAR,Type VARCHAR,Start VARCHAR,End VARCHAR);");
+        Cursor resultSet = mydatabase.rawQuery("Select ID from SoundInfo",null);
+        //resultSet.getString(resultSet.getColumnIndex("ID"));
+        //resultSet.toString();
+
+        //String id = resultSet.getString(1);
+
+        //Toast.makeText(context, resultSet.toString(), Toast.LENGTH_SHORT).show();
+
         btnSave.setOnClickListener(new View.OnClickListener() {
+
             @Override
+
             public void onClick(View v) {
                 saveText("username", editText.getText().toString());
                 fileName = editText.getText().toString();
@@ -60,9 +70,10 @@ public class MainActivity extends ActionBarActivity {
                     recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
                     recorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
 
-                    Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo",null);
+                    Cursor resultSet = mydatabase.rawQuery("Select ID from SoundInfo",null);
                     //resultSet.getString(resultSet.getColumnIndex("ID"));
                     resultSet.moveToFirst();
+                    resultSet.moveToPosition(3);
 
                     String id = resultSet.getString(0);
                     /*if(id == null){
