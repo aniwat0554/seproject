@@ -2,11 +2,18 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\NSTA\android-fundamental\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jar="C:\Users\NSTA\seproject\seproject\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="C:\Users\NSTA\android-fundamental\app\build\intermediates\pre-dexed\debug\classes-6f53ec8e806eff17d908e3d853418a0295d45e32.jar" />
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\NSTA\seproject\seproject\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-6482fc828f4687f3b6f4be151e2f07547adfd64d.jar" />
+    </item>
+    <item
+        jar="C:\Users\NSTA\seproject\seproject\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\NSTA\seproject\seproject\app\build\intermediates\pre-dexed\debug\classes-81ebce4124a12bad099ef1ec9d28f463034c1344.jar" />
     </item>
     <item
         jar="F:\Users\NSTA\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
@@ -28,6 +35,20 @@
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
         <dex dex="C:\Users\NSTA\android-fundamental\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-4829ca3e83a9d78377b8a6d75e5243e096bbe1ab.jar" />
+    </item>
+    <item
+        jar="C:\Users\NSTA\android-fundamental\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\Users\NSTA\android-fundamental\app\build\intermediates\pre-dexed\debug\classes-6f53ec8e806eff17d908e3d853418a0295d45e32.jar" />
+    </item>
+    <item
+        jar="C:\Users\NSTA\seproject\seproject\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\Users\NSTA\seproject\seproject\app\build\intermediates\pre-dexed\debug\classes-bed2f06097bb9d4f9b443fbcd070d8be0a169451.jar" />
     </item>
 
 </items>

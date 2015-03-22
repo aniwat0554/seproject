@@ -2,6 +2,8 @@ package cpe.phaith.androidfundamental;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
@@ -24,16 +26,17 @@ public class MainActivity extends ActionBarActivity {
     private EditText editText;
     public MediaRecorder recorder;
     private String outputFile = null;
+    private String fileName = null;
     private Button play;
+    private SQLiteDatabase mydatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound.aac";
         context = this;
         recorder= new MediaRecorder();
-        outputFile = Environment.getExternalStorageDirectory().
-                getAbsolutePath() + "/test.aac";;
+        mydatabase = openOrCreateDatabase("song database",MODE_PRIVATE,null);
         btnSave = (Button)findViewById(R.id.btnSave);
         play = (Button)findViewById(R.id.play);
         editText = (EditText)findViewById(R.id.username);
@@ -45,15 +48,29 @@ public class MainActivity extends ActionBarActivity {
         recorder.setOutputFile(outputFile);
 
         btnSave.setText("Record");
+        //mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo(ID INTEGER AUTOINCREMENT,Filename VARCHAR,Name VARCHAR);");
+        //mydatabase.execSQL("CREATE TABLE IF NOT EXISTS TagTable(Filename VARCHAR,Type VARCHAR,Start VARCHAR,End VARCHAR);");
+        //Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo",null);
+        //resultSet.moveToFirst();
+        //String id = resultSet.getString(1);
+        //if(id == null){
+        //    id = "1";
+        //}f
+        String id = "1";
+
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveText("username", editText.getText().toString());
+                fileName = editText.getText().toString();
                 if (btnSave.getText() == "Record") {
                     start(v);
                     btnSave.setText("Stop");
                 } else {
                     stop(v);
+                    //mydatabase.execSQL("INSERT INTO SoundInfo (Filename, Name) VALUES ('"+outputFile+"','"+fileName+"');;");
+
                     btnSave.setText("Record");
                 }
             }
