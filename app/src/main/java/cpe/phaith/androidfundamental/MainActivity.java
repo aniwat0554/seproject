@@ -32,8 +32,10 @@ public class MainActivity extends ActionBarActivity {
     private SQLiteDatabase mydatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         oF = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound.aac";
         context = this;
@@ -46,6 +48,7 @@ public class MainActivity extends ActionBarActivity {
 
 
         btnSave.setText("Record");
+<<<<<<< Updated upstream
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo3(ID INTEGER PRIMARY KEY,Filename VARCHAR,Name VARCHAR);");
         Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo3",null);
         resultSet.moveToFirst();
@@ -62,12 +65,30 @@ public class MainActivity extends ActionBarActivity {
 
         //Toast.makeText(context, resultSet.toString(), Toast.LENGTH_SHORT).show();
 
+=======
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo(ID INTEGER,Filename VARCHAR,Name VARCHAR);");
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS TagTable(Filename VARCHAR,Type VARCHAR,Start VARCHAR,End VARCHAR);");
+        recorder.reset();
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+        recorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+
+
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo(ID INTEGER,Filename VARCHAR,Name VARCHAR);");
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS TagTable(Filename VARCHAR,Type VARCHAR,Start VARCHAR,End VARCHAR);");
+        btnSave.setText("Record");
+>>>>>>> Stashed changes
         btnSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
             public void onClick(View v) {
+<<<<<<< Updated upstream
                 //saveText("username", editText.getText().toString());
+=======
+                recorder= new MediaRecorder();
+                saveText("username", editText.getText().toString());
+>>>>>>> Stashed changes
                 fileName = editText.getText().toString();
                 if (btnSave.getText() == "Record") {
                     recorder= new MediaRecorder();
@@ -76,6 +97,7 @@ public class MainActivity extends ActionBarActivity {
                     recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
                     recorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
 
+<<<<<<< Updated upstream
                     Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo3",null);
                     //resultSet.getString(resultSet.getColumnIndex("ID"));
 
@@ -88,6 +110,26 @@ public class MainActivity extends ActionBarActivity {
                     }*/
                     //id = "test";
                     outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound "+id+".aac";
+=======
+
+                 //   String id = resultSet.getString(0);
+                    /*if(id == null){
+                        id = "1";
+                    }*/
+
+                    Cursor resultSet = mydatabase.rawQuery("Select ID from SoundInfo",null);
+                    resultSet.moveToFirst();
+                    String id = resultSet.getString(0);
+                    //String id = null;
+                    if(id == null){
+                        id = "1";
+                    }
+                    outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound"+id+".aac";
+
+
+                    //String id = "1";
+
+>>>>>>> Stashed changes
                     recorder.setOutputFile(outputFile);
 
                     start(v);
