@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView android:text="" android:layout_width="match_parent"
+        android:background="#ff333333"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:textIsSelectable="false"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:background="#fff8605f"/>
+            <ImageView
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:src="@drawable/menu61"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"/>
+            <ImageView
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:src="@drawable/more6"
+            android:layout_marginLeft="340dp"
+            android:layout_marginTop="8dp"/>
+
+        </RelativeLayout>
+    />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="110dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/aaa"
+            android:layout_marginTop="10dp"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/fff"
+            android:layout_marginTop="10dp"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ddd"
+            android:layout_marginTop="10dp"
+            />
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/marker16"
+            android:layout_marginTop="1dp"
+            android:layout_marginLeft="70dp"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="420dp">
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffff"
+            android:text="TEXT HERE..."
+            android:textSize="28dip" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="420dp">
+        <ImageView
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/save"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="275dp"
+            />
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="65dp"
+            android:src="@drawable/record"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="50dp"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
