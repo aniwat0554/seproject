@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
         Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo3",null);
         resultSet.moveToFirst();
         if(resultSet.getString(0) == null){
-            mydatabase.execSQL("INSERT INTO SoundInfo2 (ID,Filename, Name) VALUES (0,'test','test');;");
+            mydatabase.execSQL("INSERT INTO SoundInfo3 (ID,Filename, Name) VALUES (0,'test','test');;");
         }
         //mydatabase.execSQL("INSERT INTO SoundInfo2 (ID,Filename, Name) VALUES (1,'test','test');;");
         //mydatabase.execSQL("CREATE TABLE IF NOT EXISTS TagTable(Filename VARCHAR,Type VARCHAR,Start VARCHAR,End VARCHAR);");
