@@ -69,16 +69,6 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/">
 
-        <TextView
-            android:layout_width="205dp"
-            android:layout_height="55dp"
-            android:text="Sound&apos;s name"
-            android:id="@+id/username"
-            android:layout_gravity="center_horizontal|top"
-            android:textColor="#ffffffff"
-            android:textAlignment="center"
-            android:textSize="30dp" />
-
         <Button
             android:layout_width="96dp"
             android:layout_height="91dp"
@@ -92,6 +82,15 @@
             android:id="@+id/play"
             android:layout_gravity="right|center_vertical"
             android:background="@drawable/record" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:id="@+id/username"
+            android:layout_gravity="center_horizontal|top"
+            android:text="Sound&apos;s name"
+            android:textColor="#ffffffff"
+            android:textSize="30dp" />
     </FrameLayout>
 
 </RelativeLayout>
