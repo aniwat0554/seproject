@@ -75,21 +75,23 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="420dp">
+        android:layout_marginTop="420dp"
+        android:id="@+id/username">
         <ImageView
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:src="@drawable/save"
             android:layout_marginLeft="275dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:id="@+id/play" />
         <ImageView
             android:layout_width="60dp"
             android:layout_height="65dp"
             android:src="@drawable/record"
             android:layout_marginTop="40dp"
             android:layout_marginLeft="50dp"
-            android:id="@+id/imageView" />
+            android:id="@+id/btnSave" />
     </RelativeLayout>
 
 </RelativeLayout>
