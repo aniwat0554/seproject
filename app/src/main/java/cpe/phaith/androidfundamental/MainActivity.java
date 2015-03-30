@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.File;
 import java.sql.* ;
 import java.lang.* ;
 import java.util.* ;
@@ -67,7 +69,7 @@ public class MainActivity extends ActionBarActivity {
         Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
         resultSet.moveToFirst();
         if(resultSet.getString(0) == null){
-            mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name) VALUES (0,'test','test','Soo',0);;");
+            mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES (0,'test','test','Soo',0);;");
         }
 
         //mydatabase.execSQL("INSERT INTO SoundInfo2 (ID,Filename, Name) VALUES (1,'test','test');;");
@@ -107,6 +109,7 @@ public class MainActivity extends ActionBarActivity {
                         id = "1";
                     }*/
                     //id = "test";
+                    createFolder();
                     outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/recording/sound "+id+".aac";
                     filenamesave = "/Lecord/recording/sound "+id+".aac";
                     recorder.setOutputFile(outputFile);
@@ -211,5 +214,17 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public boolean createFolder(){
+        File folder = new File(Environment.getExternalStorageDirectory() + "/Lecord/recording/");
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdir();
+        }
+        if (success) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
