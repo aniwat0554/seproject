@@ -6,15 +6,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.graphics.* ;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.SurfaceView ;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.view.* ;
 import java.sql.* ;
 import java.lang.* ;
 import java.util.* ;
@@ -23,10 +26,11 @@ import java.io.IOException;
 
 
 public class MainActivity extends ActionBarActivity {
-
+    private Paint paint ;
     private Context context;
     private Button btnSave;
     private EditText editText;
+    private SurfaceView surface ;
     public MediaRecorder recorder;
     private String outputFile = null;
     private String oF = null;
@@ -39,10 +43,31 @@ public class MainActivity extends ActionBarActivity {
     public static Calendar c_fin ;
    public static Timestamp a = new Timestamp(c.getTimeInMillis()) ;
     public static Time c_time;
-    protected void onCreate(Bundle savedInstanceState) {
+    public class Panel extends View {
+        public Panel(Context context) {
+            super(context);
+        }
 
+        public void onDraw(Canvas canvas) {
+            canvas.drawColor(Color.WHITE);
+            canvas.drawCircle(50, 80, 30, paint);
+            canvas.drawLine(80, 80, 80, 200, paint);
+            canvas.drawText("" + canvas.getWidth() + ", " + canvas.getHeight(), 0, 200, paint);
+        }
+
+    }
+    protected void onCreate(Bundle savedInstanceState) {
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(1);
+        paint.setTextSize(20);
+
+   //     setContentView(new Panel(this));
+
+       setContentView(R.layout.activity_main);
 
         oF = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound.aac";
         context = this;
@@ -115,7 +140,7 @@ public class MainActivity extends ActionBarActivity {
                 } else {
                     stop(v);
                     c_fin = Calendar.getInstance() ;
-                    editText.setText(""+(c_fin.getTime().getTime()-c.getTime().getTime())) ;
+                    editText.setText(""+starttime) ;
                     int duration = (int)(c_fin.getTime().getTime()-c.getTime().getTime()) ;
                     mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES ((SELECT max(ID) FROM SoundInfo6)+1,'"+outputFile+"','"+fileName+"','"+starttime+"','"+duration+"');;");
                     btnSave.setText("Record");
@@ -134,6 +159,8 @@ public class MainActivity extends ActionBarActivity {
         });
 
     }
+
+
     public void start(View view){
         try {
             recorder.prepare();
