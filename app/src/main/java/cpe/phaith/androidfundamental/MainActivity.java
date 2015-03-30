@@ -64,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
 
         //c.get(Calendar.DATE)
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo6(ID INTEGER PRIMARY KEY,Filename VARCHAR,Name VARCHAR,timestamp VARCHAR,duration INTEGER);");
-        Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo3",null);
+        Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
         resultSet.moveToFirst();
         if(resultSet.getString(0) == null){
             mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name) VALUES (0,'test','test','Soo',0);;");
