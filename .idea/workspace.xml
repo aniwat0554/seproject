@@ -17,10 +17,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: cpe.phaith.androidfundamental" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7b112ab1-9ded-488c-8d16-ff8e673dc75e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/model_data.bin" afterPath="$PROJECT_DIR$/build/intermediates/model_data.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="7b112ab1-9ded-488c-8d16-ff8e673dc75e" name="Default" comment="" />
     <ignored path="android-fundamental.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
