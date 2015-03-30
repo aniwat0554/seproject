@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\NSTA\seproject\seproject\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\NSTA\seproject\seproject\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-6482fc828f4687f3b6f4be151e2f07547adfd64d.jar" />
-    </item>
-    <item
-        jar="C:\Users\NSTA\seproject\seproject\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\NSTA\seproject\seproject\app\build\intermediates\pre-dexed\debug\classes-81ebce4124a12bad099ef1ec9d28f463034c1344.jar" />
-    </item>
-    <item
-        jar="F:\Users\NSTA\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jar="/Users/MacBookAir/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\NSTA\seproject\seproject\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-d6ee9d0c3452f7184ae08f2659fd5df95ffa4f58.jar" />
+        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject3_31/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-803ac2d8878d9b10881d738c401def3343970750.jar" />
     </item>
     <item
-        jar="C:\Users\NSTA\seproject\seproject\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jar="/Users/MacBookAir/Documents/AndroidT/seproject3_31/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="C:\Users\NSTA\seproject\seproject\app\build\intermediates\pre-dexed\debug\classes-bed2f06097bb9d4f9b443fbcd070d8be0a169451.jar" />
+        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject3_31/app/build/intermediates/pre-dexed/debug/classes-aa0af9da26a39b4f15763cfc6950e2d9ba1d1903.jar" />
+    </item>
+    <item
+        jar="/Users/MacBookAir/Documents/AndroidT/seproject3_31/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject3_31/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-ed12ce867fcc196bac7f934dbf05ab488dac2bb7.jar" />
+    </item>
+    <item
+        jar="/Users/MacBookAir/Documents/AndroidT/seproject3_31/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject3_31/app/build/intermediates/pre-dexed/debug/classes-774c5280384de581d2ad41d882ca8b8ec3f21289.jar" />
     </item>
 
 </items>

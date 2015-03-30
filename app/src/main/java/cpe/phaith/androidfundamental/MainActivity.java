@@ -15,6 +15,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import java.sql.* ;
+import java.lang.* ;
+import java.util.* ;
 
 import java.io.IOException;
 
@@ -29,9 +32,15 @@ public class MainActivity extends ActionBarActivity {
     private String oF = null;
     private String fileName = null;
     private Button play;
+
     private SQLiteDatabase mydatabase;
-    @Override
+    public static  String starttime = "" ;
+   public static Calendar c = Calendar.getInstance();
+    public static Calendar c_fin ;
+   public static Timestamp a = new Timestamp(c.getTimeInMillis()) ;
+    public static Time c_time;
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -41,16 +50,21 @@ public class MainActivity extends ActionBarActivity {
         mydatabase = openOrCreateDatabase("song database",MODE_PRIVATE,null);
         btnSave = (Button)findViewById(R.id.btnSave);
         play = (Button)findViewById(R.id.play);
-        editText = (EditText)findViewById(R.id.username);
+         editText = (EditText)findViewById(R.id.username);
         editText.setText(getText("username"));
 
-
         btnSave.setText("Record");
-        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo3(ID INTEGER PRIMARY KEY,Filename VARCHAR,Name VARCHAR);");
+        c = Calendar.getInstance() ;
+        a = new Timestamp(c.getTimeInMillis()) ;
+        String temp = a.toString() ;
+        editText.setText(""+temp.substring(0,temp.length()-4)) ;
+
+        //c.get(Calendar.DATE)
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo6(ID INTEGER PRIMARY KEY,Filename VARCHAR,Name VARCHAR,timestamp VARCHAR,duration INTEGER);");
         Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo3",null);
         resultSet.moveToFirst();
         if(resultSet.getString(0) == null){
-            mydatabase.execSQL("INSERT INTO SoundInfo3 (ID,Filename, Name) VALUES (0,'test','test');;");
+            mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name) VALUES (0,'test','test','Soo',0);;");
         }
         //mydatabase.execSQL("INSERT INTO SoundInfo2 (ID,Filename, Name) VALUES (1,'test','test');;");
         //mydatabase.execSQL("CREATE TABLE IF NOT EXISTS TagTable(Filename VARCHAR,Type VARCHAR,Start VARCHAR,End VARCHAR);");
@@ -70,13 +84,15 @@ public class MainActivity extends ActionBarActivity {
                 //saveText("username", editText.getText().toString());
                 fileName = editText.getText().toString();
                 if (btnSave.getText() == "Record") {
+                //    c = Calendar.getInstance() ;
+                  //  editText.setText(c.toString()) ;
                     recorder= new MediaRecorder();
                     recorder.reset();
                     recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                     recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
                     recorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
 
-                    Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo3",null);
+                    Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
                     //resultSet.getString(resultSet.getColumnIndex("ID"));
 
                     resultSet.moveToFirst();
@@ -89,13 +105,19 @@ public class MainActivity extends ActionBarActivity {
                     //id = "test";
                     outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound "+id+".aac";
                     recorder.setOutputFile(outputFile);
-
+                    c = Calendar.getInstance() ;
+                    a = new Timestamp(c.getTimeInMillis()) ;
+                    String temp = a.toString() ;
+                    starttime = ""+temp.substring(0,temp.length()-4) ;
+                    c.getTime().getTime() ;
                     start(v);
                     btnSave.setText("Stop");
                 } else {
                     stop(v);
-                    mydatabase.execSQL("INSERT INTO SoundInfo3 (ID,Filename, Name) VALUES ((SELECT max(ID) FROM SoundInfo3)+1,'"+outputFile+"','"+fileName+"');;");
-
+                    c_fin = Calendar.getInstance() ;
+                    editText.setText(""+(c_fin.getTime().getTime()-c.getTime().getTime())) ;
+                    int duration = (int)(c_fin.getTime().getTime()-c.getTime().getTime()) ;
+                    mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES ((SELECT max(ID) FROM SoundInfo6)+1,'"+outputFile+"','"+fileName+"','"+starttime+"','"+duration+"');;");
                     btnSave.setText("Record");
                 }
             }
