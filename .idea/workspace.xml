@@ -18,6 +18,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b112ab1-9ded-488c-8d16-ff8e673dc75e" name="Default" comment="" />
+    <list default="true" id="7b112ab1-9ded-488c-8d16-ff8e673dc75e" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="android-fundamental.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
