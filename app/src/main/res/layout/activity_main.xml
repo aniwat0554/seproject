@@ -33,7 +33,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_marginTop="110dp">
+        android:layout_marginTop="110dp"
+        android:id="@+id/relativeLayout">
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -60,38 +61,37 @@
             android:layout_marginLeft="70dp"
             />
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="420dp">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/">
+
         <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textColor="#ffff"
-            android:text="TEXT HERE..."
-            android:textSize="28dip" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="420dp"
-        android:id="@+id/username">
-        <ImageView
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:src="@drawable/save"
-            android:layout_marginLeft="275dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/play" />
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="65dp"
-            android:src="@drawable/record"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="50dp"
-            android:id="@+id/btnSave" />
-    </RelativeLayout>
+            android:layout_width="205dp"
+            android:layout_height="55dp"
+            android:text="Sound&apos;s name"
+            android:id="@+id/username"
+            android:layout_gravity="center_horizontal|top"
+            android:textColor="#ffffffff"
+            android:textAlignment="center"
+            android:textSize="30dp" />
+
+        <Button
+            android:layout_width="96dp"
+            android:layout_height="91dp"
+            android:id="@+id/btnSave"
+            android:layout_gravity="left|center_vertical"
+            android:background="@drawable/record" />
+
+        <Button
+            android:layout_width="96dp"
+            android:layout_height="91dp"
+            android:id="@+id/play"
+            android:layout_gravity="right|center_vertical"
+            android:background="@drawable/record" />
+    </FrameLayout>
 
 </RelativeLayout>
