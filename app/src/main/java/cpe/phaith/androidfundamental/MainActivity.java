@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
     private String oF = null;
     private String fileName = null;
     private Button play;
-    private Button file;
+    private Button fileview;
     private String filenamesave;
     private SQLiteDatabase mydatabase;
     public static  String starttime = "" ;
@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
         mydatabase = openOrCreateDatabase("song database",MODE_PRIVATE,null);
         btnSave = (Button)findViewById(R.id.btnSave);
         play = (Button)findViewById(R.id.play);
-        file = (Button)findViewById(R.id.file);
+        fileview = (Button)findViewById(R.id.file);
          editText = (EditText)findViewById(R.id.username);
         editText.setText(getText("username"));
 
@@ -110,8 +110,8 @@ public class MainActivity extends ActionBarActivity {
                     }*/
                     //id = "test";
                     createFolder();
-                    outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/recording/sound "+id+".aac";
-                    filenamesave = "/Lecord/recording/sound "+id+".aac";
+                    outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/sound "+id+".aac";
+                    filenamesave = "/Lecord/sound "+id+".aac";
                     recorder.setOutputFile(outputFile);
                     c = Calendar.getInstance() ;
                     a = new Timestamp(c.getTimeInMillis()) ;
@@ -125,7 +125,7 @@ public class MainActivity extends ActionBarActivity {
                     c_fin = Calendar.getInstance() ;
                     editText.setText(""+(c_fin.getTime().getTime()-c.getTime().getTime())) ;
                     int duration = (int)(c_fin.getTime().getTime()-c.getTime().getTime()) ;
-                    mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES ((SELECT max(ID) FROM SoundInfo6)+1,'"+outputFile+"','"+filenamesave+"','"+starttime+"','"+duration+"');;");
+                    mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES ((SELECT max(ID) FROM SoundInfo6)+1,'"+filenamesave+"','"+fileName+"','"+starttime+"','"+duration+"');;");
                     btnSave.setText("Record");
                 }
             }
@@ -140,7 +140,7 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
-        file.setOnClickListener(new View.OnClickListener() {
+        fileview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(getApplicationContext(), fileview.class);
@@ -216,7 +216,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     public boolean createFolder(){
-        File folder = new File(Environment.getExternalStorageDirectory() + "/Lecord/recording/");
+        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord");
         boolean success = true;
         if (!folder.exists()) {
             success = folder.mkdir();

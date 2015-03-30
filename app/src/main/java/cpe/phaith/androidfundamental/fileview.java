@@ -27,7 +27,7 @@ public class fileview extends ListActivity {
         String item = (String)getListAdapter().getItem(position);
         resultSet.moveToPosition(position);
         MediaPlayer m = new MediaPlayer();
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + resultSet.getString(0);
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + resultSet.getString(1);
         try {
             m.setDataSource(path);
             m.prepare();
