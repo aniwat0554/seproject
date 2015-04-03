@@ -27,6 +27,7 @@ public class fileview extends ListActivity {
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
+
         String item = (String)getListAdapter().getItem(position);
         resultSet.moveToPosition(position);
         MediaPlayer m = new MediaPlayer();
@@ -58,20 +59,22 @@ public class fileview extends ListActivity {
 
         mydatabase = openOrCreateDatabase("song database",MODE_PRIVATE,null);
         //mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo3(ID INTEGER PRIMARY KEY,Filename VARCHAR,Name VARCHAR);");
-        resultSet = mydatabase.rawQuery("Select Name,timestamp,duration from SoundInfo6",null);
+        resultSet = mydatabase.rawQuery("Select Name,Filename,timestamp,duration from SoundInfo6",null);
         resultSet.moveToFirst();
         String[] kuy = new String[resultSet.getCount()];
         for(int i = 0;i != resultSet.getCount();i++){
             kuy[i] = resultSet.getString(0);
             kuy[i]+=",," ;
-            kuy[i]+= resultSet.getString(1)+",,";
-            int temp = Integer.parseInt(resultSet.getString(2)) ;
+            kuy[i]+= resultSet.getString(2)+",,";
+            int temp = Integer.parseInt(resultSet.getString(3)) ;
             DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
             Date tt = new Date((long) temp) ;
             kuy[i]+=formatter.format(tt) ;
             resultSet.moveToNext();
         }
-        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this,kuy) ;
+
+        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this,new ArrayList<String>(Arrays.asList(kuy)),mydatabase) ;
+
        // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,kuy);
         setListAdapter(adapter);
     }

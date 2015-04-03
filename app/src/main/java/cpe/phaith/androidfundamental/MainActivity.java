@@ -18,14 +18,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-<<<<<<< HEAD
+
 import android.view.LayoutInflater;
 import android.view.View.OnClickListener;
-
-=======
 import java.text.SimpleDateFormat ;
 import java.util.Date ;
->>>>>>> origin/master
 import java.io.File;
 import java.sql.* ;
 import java.lang.* ;
