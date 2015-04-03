@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ddd"
-            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
             />
         <ImageView
             android:layout_width="80dp"
@@ -81,7 +81,7 @@
             android:layout_height="91dp"
             android:id="@+id/play"
             android:layout_gravity="right|center_vertical"
-            android:background="@drawable/record" />
+            android:background="@drawable/save" />
 
         <EditText
             android:layout_width="wrap_content"
