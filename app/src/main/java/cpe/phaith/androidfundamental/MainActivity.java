@@ -1,6 +1,8 @@
 package cpe.phaith.androidfundamental;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -16,6 +18,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.view.LayoutInflater;
+import android.view.View.OnClickListener;
 
 import java.io.File;
 import java.sql.* ;
@@ -35,12 +39,19 @@ public class MainActivity extends ActionBarActivity {
     private String oF = null;
     private String fileName = null;
     private Button play;
+    private String tagtext = "test";
     private Button fileview;
+    private Button tan;
+    private String id;
+    private String idfortag;
+    private Button test;
     private String filenamesave;
+    private String tagtime;
     private SQLiteDatabase mydatabase;
     public static  String starttime = "" ;
    public static Calendar c = Calendar.getInstance();
     public static Calendar c_fin ;
+    public static Calendar c_tag ;
    public static Timestamp a = new Timestamp(c.getTimeInMillis()) ;
     public static Time c_time;
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,20 +67,23 @@ public class MainActivity extends ActionBarActivity {
         play = (Button)findViewById(R.id.play);
         fileview = (Button)findViewById(R.id.file);
          editText = (EditText)findViewById(R.id.username);
+        tan = (Button)findViewById(R.id.rectag);
         editText.setText(getText("username"));
-
+        test = (Button)findViewById(R.id.test);
         btnSave.setText("Record");
         c = Calendar.getInstance() ;
         a = new Timestamp(c.getTimeInMillis()) ;
+        tan.setEnabled(false);
         String temp = a.toString() ;
         editText.setText(""+temp.substring(0,temp.length()-4)) ;
 
         //c.get(Calendar.DATE)
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo6(ID INTEGER PRIMARY KEY,Filename VARCHAR,Name VARCHAR,timestamp VARCHAR,duration INTEGER);");
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundStruct(ID INTEGER,PART INTEGER,Name VARCHAR,TagTime INTEGER);");
         Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
         resultSet.moveToFirst();
         if(resultSet.getString(0) == null){
-            mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES (0,'test','test','Soo',0);;");
+           mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES (0,'test','test','Soo',0);;");
         }
 
         //mydatabase.execSQL("INSERT INTO SoundInfo2 (ID,Filename, Name) VALUES (1,'test','test');;");
@@ -82,12 +96,73 @@ public class MainActivity extends ActionBarActivity {
 
         //Toast.makeText(context, resultSet.toString(), Toast.LENGTH_SHORT).show();
 
+        tan.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                c_tag = Calendar.getInstance() ;
+
+                // get prompts.xml view
+                LayoutInflater li = LayoutInflater.from(context);
+                View promptsView = li.inflate(R.layout.prompts, null);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        context);
+
+                // set prompts.xml to alertdialog builder
+                alertDialogBuilder.setView(promptsView);
+
+                final EditText userInput = (EditText) promptsView
+                        .findViewById(R.id.editTextDialogUserInput);
+
+                // set dialog message
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // get user input and set it to result
+                                        // edit text
+                                        //result.setText(userInput.getText());
+                                        tagtext = userInput.getText().toString();
+                                        /*Toast.makeText(getApplicationContext(), tagtext,
+                                                Toast.LENGTH_LONG).show();*/
+
+                                        Cursor tempset = mydatabase.rawQuery("Select max(PART) from SoundStruct where ID = "+idfortag,null);
+                                        tempset.moveToFirst();
+                                        String part;
+                                        if(tempset.getString(0) == null){
+                                            part = "1";
+                                        }else {
+                                            part =""+ (tempset.getInt(0)+1);
+                                        }
+                                        mydatabase.execSQL("INSERT INTO SoundStruct (ID,PART,Name,TagTime) VALUES ("+idfortag+","+part+",'"+tagtext+"',"+(int)(c_tag.getTime().getTime()-c.getTime().getTime())+");;");
+
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+
+            }
+        });
+
         btnSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
             public void onClick(View v) {
                 //saveText("username", editText.getText().toString());
+                tan.setEnabled(true);
                 fileName = editText.getText().toString();
                 if (btnSave.getText() == "Record") {
                 //    c = Calendar.getInstance() ;
@@ -104,10 +179,14 @@ public class MainActivity extends ActionBarActivity {
                     resultSet.moveToFirst();
                     //resultSet.moveToPosition(3);
 
-                    String id = ""+(resultSet.getInt(0)+1);
+                    id = ""+(resultSet.getInt(0)+1);
                     /*if(id == null){
                         id = "1";
                     }*/
+                    idfortag = id;
+                    //id = Integer.parseInt(id);
+                    Toast.makeText(getApplicationContext(),""+ id,
+                            Toast.LENGTH_LONG).show();
                     //id = "test";
                     createFolder();
                     outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/sound "+id+".aac";
@@ -125,8 +204,9 @@ public class MainActivity extends ActionBarActivity {
                     c_fin = Calendar.getInstance() ;
                     editText.setText(""+(c_fin.getTime().getTime()-c.getTime().getTime())) ;
                     int duration = (int)(c_fin.getTime().getTime()-c.getTime().getTime()) ;
-                    mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES ((SELECT max(ID) FROM SoundInfo6)+1,'"+filenamesave+"','"+fileName+"','"+starttime+"','"+duration+"');;");
+                    mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES ((SELECT max(ID) FROM SoundInfo6)+1,'"+filenamesave+"','"+fileName+"','"+starttime+"',"+duration+");;");
                     btnSave.setText("Record");
+                    tan.setEnabled(false);
                 }
             }
         });
@@ -145,6 +225,26 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent in = new Intent(getApplicationContext(), fileview.class);
                 startActivity(in);
+            }
+        });
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor testSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
+                testSet.moveToFirst();
+                String id = testSet.getString(0);
+                //Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG).show();
+                testSet = mydatabase.rawQuery("Select Name,PART,TagTime from SoundStruct where ID = "+id,null);
+                //testSet.moveToFirst();
+                //testSet.moveToPosition(5);
+                //testSet.moveToLast();
+                for(int i = 1;i != testSet.getCount();i++) {
+                    Toast.makeText(getApplicationContext(), testSet.getString(0) + " " + testSet.getString(1) + " " + testSet.getString(2), Toast.LENGTH_LONG).show();
+                    //testSet.moveToNext();
+                }
+                /*Cursor testSet = mydatabase.rawQuery("Select Name from SoundStruct",null);
+                testSet.moveToFirst();
+                Toast.makeText(getApplicationContext(), testSet.getString(0), Toast.LENGTH_LONG).show();*/
             }
         });
 
