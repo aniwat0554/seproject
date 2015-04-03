@@ -16,7 +16,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import java.text.SimpleDateFormat ;
+import java.util.Date ;
 import java.io.File;
 import java.sql.* ;
 import java.lang.* ;
@@ -114,16 +115,28 @@ public class MainActivity extends ActionBarActivity {
                     filenamesave = "/Lecord/sound "+id+".aac";
                     recorder.setOutputFile(outputFile);
                     c = Calendar.getInstance() ;
+                    String string = "3 Jan 2015" ;
+                    SimpleDateFormat format = new SimpleDateFormat("EEE d MMMM, yyyy", Locale.ENGLISH);
+                    Date date ;
+                    try {
+                        date = format.parse(c.toString());
+                       // date+=Calendar. ;
+                    }catch(Exception e) {
+                        date = new Date() ;
+                    }
+                    System.out.println(format.format(date)); // Sat Jan 02 00:00:00 GMT 2010
                     a = new Timestamp(c.getTimeInMillis()) ;
                     String temp = a.toString() ;
-                    starttime = ""+temp.substring(0,temp.length()-4) ;
+
+                    starttime = format.format(date) ;
                     c.getTime().getTime() ;
                     start(v);
                     btnSave.setText("Stop");
                 } else {
                     stop(v);
                     c_fin = Calendar.getInstance() ;
-                    editText.setText(""+(c_fin.getTime().getTime()-c.getTime().getTime())) ;
+                    editText.setText(starttime) ;
+                   // editText.setText(""+(c_fin.getTime().getTime()-c.getTime().getTime())) ;
                     int duration = (int)(c_fin.getTime().getTime()-c.getTime().getTime()) ;
                     mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES ((SELECT max(ID) FROM SoundInfo6)+1,'"+filenamesave+"','"+fileName+"','"+starttime+"','"+duration+"');;");
                     btnSave.setText("Record");
