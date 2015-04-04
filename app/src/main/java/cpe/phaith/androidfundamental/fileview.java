@@ -14,12 +14,15 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
+import java.text.DateFormat ;
+import java.util.* ;
 import java.io.IOException;
+import java.text.SimpleDateFormat ;
+
 
 
 public class fileview extends ListActivity {
-    private SQLiteDatabase mydatabase;
+    public SQLiteDatabase mydatabase;
     Cursor resultSet;
 
     @Override
@@ -37,20 +40,39 @@ public class fileview extends ListActivity {
         }
         Toast.makeText(this,item+""+position + "yeah test test",Toast.LENGTH_LONG).show();
     }
+    public String fromMillitoTime(int Duration) {
+        String returner =  "" ;
+        if(Duration < 60*1000) {
+            returner = ""+(Duration / 1000)+" sec";
+        }else if (Duration < 60*60*1000) {
+            returner = ""+(Duration / 1000 / 60)+" mins" ;
+        }else {
+            returner = ""+(Duration /1000 / 60 / 60)+" hours" ;
+        }
+        return returner ;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mydatabase = openOrCreateDatabase("song database",MODE_PRIVATE,null);
         //mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo3(ID INTEGER PRIMARY KEY,Filename VARCHAR,Name VARCHAR);");
-        resultSet = mydatabase.rawQuery("Select Name,Filename from SoundInfo6",null);
+        resultSet = mydatabase.rawQuery("Select Name,timestamp,duration from SoundInfo6",null);
         resultSet.moveToFirst();
         String[] kuy = new String[resultSet.getCount()];
         for(int i = 0;i != resultSet.getCount();i++){
             kuy[i] = resultSet.getString(0);
+            kuy[i]+=",," ;
+            kuy[i]+= resultSet.getString(1)+",,";
+            int temp = Integer.parseInt(resultSet.getString(2)) ;
+            DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+            Date tt = new Date((long) temp) ;
+            kuy[i]+=formatter.format(tt) ;
             resultSet.moveToNext();
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,kuy);
+        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this,kuy) ;
+       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,kuy);
         setListAdapter(adapter);
     }
 

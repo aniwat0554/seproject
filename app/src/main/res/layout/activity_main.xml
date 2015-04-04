@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/aaa"
             android:layout_marginTop="10dp"
-            />
+            android:id="@+id/imageView13" />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -59,7 +59,24 @@
             android:src="@drawable/marker16"
             android:layout_marginTop="1dp"
             android:layout_marginLeft="70dp"
-            />
+            android:id="@+id/imageView14" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Record"
+            android:id="@+id/rectag"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="unneccessary"
+            android:id="@+id/test"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/imageView14" />
+
     </RelativeLayout>
 
     <FrameLayout
@@ -85,7 +102,11 @@
 
         <EditText
             android:layout_width="wrap_content"
+<<<<<<< HEAD
             android:layout_height="wrap_content"
+=======
+            android:layout_height="65dp"
+>>>>>>> origin/master
             android:id="@+id/username"
             android:layout_gravity="center_horizontal|top"
             android:text="Sound&apos;s name"
@@ -99,6 +120,7 @@
             android:text="Files"
             android:id="@+id/file"
             android:layout_gravity="center" />
+
     </FrameLayout>
 
 </RelativeLayout>
