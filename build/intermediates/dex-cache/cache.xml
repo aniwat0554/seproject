@@ -2,53 +2,32 @@
 <items version="2" >
 
     <item
-        jar="/Users/MacBookAir/Documents/AndroidT/asdasdasdasdasd/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/Users/MacBookAir/Documents/AndroidT/asdasdasdasdasd/app/build/intermediates/pre-dexed/debug/classes-45a4da5478e711a263f26409025fe4a33d40474c.jar" />
-    </item>
-    <item
-        jar="/Users/MacBookAir/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jar="D:\Program Files\Java\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject2/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-803ac2d8878d9b10881d738c401def3343970750.jar" />
+        <dex dex="C:\Users\user\Documents\GitHub\eiei\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-2fc6c20f4d85e5b0c8e3f913a1876bb4d7b1889d.jar" />
     </item>
     <item
-        jar="/Users/MacBookAir/Documents/AndroidT/seproject2/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject2/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-de5dfc200eb16683f6253f9c12f5e6f728dd0625.jar" />
-    </item>
-    <item
-        jar="/Users/MacBookAir/Documents/AndroidT/asdasdasdasdasd/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/MacBookAir/Documents/AndroidT/asdasdasdasdasd/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-999eeb9607842988c19a797d7c3a9aa821187dde.jar" />
-    </item>
-    <item
-        jar="/Users/MacBookAir/Documents/AndroidT/seproject2/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jar="C:\Users\user\Documents\GitHub\eiei\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject2/app/build/intermediates/pre-dexed/debug/classes-3ba92028d2240cef381b424ce3abbcba28a608e5.jar" />
+        <dex dex="C:\Users\user\Documents\GitHub\eiei\app\build\intermediates\pre-dexed\debug\classes-2c2af0f00b7dd3e626aa5b6f57b05eca15a860a8.jar" />
     </item>
     <item
-        jar="/Users/MacBookAir/Documents/AndroidT/asdasdasdasdasd/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jar="C:\Users\user\Documents\GitHub\eiei\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/Users/MacBookAir/Documents/AndroidT/asdasdasdasdasd/app/build/intermediates/pre-dexed/debug/classes-a0836c62e43af8aed430f08716904c4e74f04770.jar" />
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\user\Documents\GitHub\eiei\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-08d50dc5e43c3f865de39316cabe203d81785a26.jar" />
     </item>
     <item
-        jar="/Users/MacBookAir/Documents/AndroidT/seproject2/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jar="C:\Users\user\Documents\GitHub\eiei\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject2/app/build/intermediates/pre-dexed/debug/classes-abc80930d8584e75ad200d00006406698bce948e.jar" />
+        <dex dex="C:\Users\user\Documents\GitHub\eiei\app\build\intermediates\pre-dexed\debug\classes-ff6d58ed1ddc8dfec0d9040bad1f9d7516a83540.jar" />
     </item>
 
 </items>

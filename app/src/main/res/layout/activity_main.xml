@@ -52,7 +52,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/ddd"
             android:layout_centerHorizontal="true"
-            />
+            android:id="@+id/jhjhjhj" />
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
