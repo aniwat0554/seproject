@@ -20,7 +20,7 @@
             android:id="@+id/firstLine"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_above="@id/secondLine"
+            android:layout_above="@id/firstLine"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_alignWithParentIfMissing="true"
