@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android.view.LayoutInflater;
@@ -47,6 +48,7 @@ public class MainActivity extends ActionBarActivity {
     private String id;
     private String idfortag;
     private Button test;
+    private TextView testtext ;
     private String filenamesave;
     private String tagtime;
     private SQLiteDatabase mydatabase;
@@ -63,7 +65,7 @@ public class MainActivity extends ActionBarActivity {
 
         oF = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound.aac";
         context = this;
-
+        testtext = (TextView)findViewById((R.id.textView4)) ;
         mydatabase = openOrCreateDatabase("song database",MODE_PRIVATE,null);
         btnSave = (Button)findViewById(R.id.btnSave);
         play = (Button)findViewById(R.id.play);
@@ -78,7 +80,13 @@ public class MainActivity extends ActionBarActivity {
         tan.setEnabled(false);
         String temp = a.toString() ;
         editText.setText(""+temp.substring(0,temp.length()-4)) ;
-
+       Intent intent2 = this.getIntent() ;
+        if (intent2!=null) {
+            if (intent2.getExtras() != null) {
+                String recieved = intent2.getExtras().getString("send");
+                testtext.setText(recieved);
+            }
+        }
         //c.get(Calendar.DATE)
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo6(ID INTEGER PRIMARY KEY,Filename VARCHAR,Name VARCHAR,timestamp VARCHAR,duration INTEGER);");
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundStruct(ID INTEGER,PART INTEGER,Name VARCHAR,TagTime INTEGER);");
@@ -237,7 +245,7 @@ public class MainActivity extends ActionBarActivity {
         fileview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getApplicationContext(), edit.class);
+                Intent in = new Intent(getApplicationContext(), fileview.class);
                 startActivity(in);
             }
         });

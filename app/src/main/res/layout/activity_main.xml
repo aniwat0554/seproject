@@ -79,6 +79,19 @@
             android:layout_toRightOf="@+id/rectag"
             android:layout_toEndOf="@+id/rectag" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="TEST_NOTHING _HERE"
+            android:id="@+id/textView4"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/imageView14"
+            android:layout_alignStart="@+id/imageView14"
+            android:autoText="false"
+            android:textColor="#fffafbff" />
+
     </RelativeLayout>
 
     <FrameLayout

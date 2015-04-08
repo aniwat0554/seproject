@@ -1,15 +1,19 @@
 package cpe.phaith.androidfundamental;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
+import android.content.* ;
 import android.media.MediaPlayer;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.content.Intent;
+import android.app.Activity ;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Button ;
+import android.support.v7.app.ActionBarActivity;
 import java.util.* ;
 
 import android.database.Cursor;
@@ -79,6 +83,9 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
                 String songid = resultSet.getString(0);
                 MediaPlayer m = new MediaPlayer();
                 String path = Environment.getExternalStorageDirectory().getAbsolutePath() + resultSet.getString(1);
+                Intent i = new Intent(context.getApplicationContext(), MainActivity.class);
+                i.putExtra("send",path);
+                context.startActivity(i);
                 try {
                     m.setDataSource(path);
                     m.prepare();
