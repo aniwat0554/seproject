@@ -93,7 +93,7 @@
                 android:layout_marginRight="0dp"
                 android:layout_marginEnd="15dp"
                 android:layout_alignParentEnd="false"
-                android:background="@drawable/nut4"
+                android:background="@drawable/rubbish12"
                 android:layout_marginTop="0dp"
                 android:layout_marginLeft="45dp" />
 
@@ -103,7 +103,7 @@
                 android:id="@+id/play"
                 android:layout_marginRight="60dp"
                 android:layout_marginEnd="36dp"
-                android:background="@drawable/see"
+                android:background="@drawable/play9"
                 android:focusableInTouchMode="false"
                 android:layout_below="@+id/firstLine"
                 android:layout_toLeftOf="@+id/delbut"
