@@ -61,7 +61,23 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+     //  setContentView(R.layout.activity_main);
+
+
+
+
+        int mode = getResources().getConfiguration().orientation;
+
+        if (mode == 1) {
+
+            setContentView(R.layout.activity_mainport);
+
+        } else {
+
+            setContentView(R.layout.activity_mainland);
+
+        }
+
 
         oF = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound.aac";
         context = this;
@@ -166,12 +182,16 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+
+
         btnSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
             public void onClick(View v) {
                 //saveText("username", editText.getText().toString());
+
+                btnSave.setBackgroundResource(R.drawable.rec2);
                 tan.setEnabled(true);
                 fileName = editText.getText().toString();
                 if (btnSave.getText() == "Record") {
@@ -220,7 +240,9 @@ public class MainActivity extends ActionBarActivity {
                     c.getTime().getTime() ;
                     start(v);
                     btnSave.setText("Stop");
+
                 } else {
+                    btnSave.setBackgroundResource(R.drawable.rec1);
                     stop(v);
                     c_fin = Calendar.getInstance() ;
                     editText.setText(starttime) ;
