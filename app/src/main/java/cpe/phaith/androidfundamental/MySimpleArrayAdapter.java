@@ -18,7 +18,7 @@ import java.util.* ;
 
 import android.database.Cursor;
 import android.widget.Toast;
-
+import java.io.File;
 import java.io.IOException;
 
 
@@ -62,11 +62,19 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "DELETE", Toast.LENGTH_LONG).show();
-                 resultSet = dataB.rawQuery("Select ID from SoundInfo6",null);
+                 resultSet = dataB.rawQuery("Select ID,Filename from SoundInfo6",null);
                 resultSet.moveToPosition(position);
                 String songid = resultSet.getString(0);
+                String path = Environment.getExternalStorageDirectory().getAbsolutePath()+resultSet.getString(1);
+                File file = new File(path);
+                boolean deleted = file.delete();
+                if(deleted) Toast.makeText(getContext(), "DELETE OK", Toast.LENGTH_LONG).show();
+                else {
+                    Toast.makeText(getContext(), "DELETE FAILED", Toast.LENGTH_LONG).show();
+                }
                 dataB.delete("SoundInfo6","ID ="+songid,null) ;
                 remove(getItem(position)) ;
+
                //notifyDataSetChanged();
               //  v.destroyDrawingCache();
                 //this.setVisibility(ListView.INVISIBLE);
