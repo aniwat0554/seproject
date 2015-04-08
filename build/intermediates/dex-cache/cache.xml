@@ -2,39 +2,39 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Athena_lyn\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jar="D:\Program Files\Java\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\Athena_lyn\Documents\GitHub\seproject\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-e7b62c800d4eb4af6203050330dfbf4d041a1a20.jar" />
+        <dex dex="C:\Users\user\Documents\GitHub\seproject\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-2fc6c20f4d85e5b0c8e3f913a1876bb4d7b1889d.jar" />
     </item>
     <item
-        jar="C:\Users\Athena_lyn\Documents\GitHub\seproject\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jar="C:\Users\user\Documents\GitHub\seproject\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\Athena_lyn\Documents\GitHub\seproject\app\build\intermediates\pre-dexed\debug\classes-db31bce12c25fb05e5f3b0687d0fe12f60db84f5.jar" />
+        <dex dex="C:\Users\user\Documents\GitHub\seproject\app\build\intermediates\pre-dexed\debug\classes-bcd9179e35471bf04187e289592ced196efb1e26.jar" />
     </item>
     <item
-        jar="C:\Users\Athena_lyn\Documents\GitHub\seproject\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\Athena_lyn\Documents\GitHub\seproject\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-06a7f608657feee10699cb407464b94b93c8abb8.jar" />
-    </item>
-    <item
-        jar="C:\Users\Athena_lyn\Documents\GitHub\seproject\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jar="C:\Users\user\Documents\GitHub\seproject\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="C:\Users\Athena_lyn\Documents\GitHub\seproject\app\build\intermediates\pre-dexed\debug\classes-5914da9daddfd7f36e6423878fc5d4df211c48e5.jar" />
+        <dex dex="C:\Users\user\Documents\GitHub\seproject\app\build\intermediates\pre-dexed\debug\classes-1bc05843cbd1061345558f07d56ebff6115cbd36.jar" />
     </item>
     <item
-        jar="C:\Users\Athena_lyn\Documents\GitHub\seproject\app\src\lib\svg-android.jar"
+        jar="C:\Users\user\Documents\GitHub\seproject\app\src\lib\svg-android.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="da90ccda68d4c02a84b9cb01526da382522c7b0d">
-        <dex dex="C:\Users\Athena_lyn\Documents\GitHub\seproject\app\build\intermediates\pre-dexed\debug\svg-android-495f2397d547797869b00f034335dbc350aa6e9e.jar" />
+        <dex dex="C:\Users\user\Documents\GitHub\seproject\app\build\intermediates\pre-dexed\debug\svg-android-0461a77b414fd64889f2d5d68ef79a98c697e4a4.jar" />
+    </item>
+    <item
+        jar="C:\Users\user\Documents\GitHub\seproject\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\user\Documents\GitHub\seproject\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-3f055bba9ba35a0eb81aadc458fd1719f47bc2fb.jar" />
     </item>
 
 </items>

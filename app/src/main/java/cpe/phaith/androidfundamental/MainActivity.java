@@ -96,18 +96,7 @@ public class MainActivity extends ActionBarActivity {
            mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES (0,'test','test','Soo',0);;");
         }
 
-        //svg setting
-        // Create a new ImageView
-        ImageView imageView = new ImageView(this);
-        // Set the background color to white
-        imageView.setBackgroundColor(Color.WHITE);
-        // Parse the SVG file from the resource
-        SVG svg = SVGParser.getSVGFromResource(getResources(), R.raw.android);
-        // Get a drawable from the parsed SVG and set it as the drawable for the ImageView
-        imageView.setImageDrawable(svg.createPictureDrawable());
-        // Set the ImageView as the content view for the Activity
 
-        setContentView(imageView);
         //mydatabase.execSQL("INSERT INTO SoundInfo2 (ID,Filename, Name) VALUES (1,'test','test');;");
         //mydatabase.execSQL("CREATE TABLE IF NOT EXISTS TagTable(Filename VARCHAR,Type VARCHAR,Start VARCHAR,End VARCHAR);");
         //Cursor resultSet = mydatabase.rawQuery("Select ID from SoundInfo",null);
