@@ -7,11 +7,8 @@
         android:background="#ff333333"
         android:layout_height="match_parent"
         android:clickable="false"
-        android:textIsSelectable="false"
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:style="@style/btnStyleOrange"/> />
+        android:textIsSelectable="false"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp">
@@ -79,7 +76,8 @@
             android:text="unneccessary"
             android:id="@+id/test"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/imageView14" />
+            android:layout_toRightOf="@+id/rectag"
+            android:layout_toEndOf="@+id/rectag" />
 
     </RelativeLayout>
 

@@ -237,7 +237,7 @@ public class MainActivity extends ActionBarActivity {
         fileview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getApplicationContext(), fileview.class);
+                Intent in = new Intent(getApplicationContext(), edit.class);
                 startActivity(in);
             }
         });
