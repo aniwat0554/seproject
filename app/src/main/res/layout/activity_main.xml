@@ -9,9 +9,6 @@
     />
 
 
-
-
-
     ]]>
 
     <LinearLayout
@@ -89,7 +86,7 @@
 
             <Button
                 android:layout_width="69dp"
-                android:layout_height="89dp"
+                android:layout_height="346dp"
                 android:text="Record"
                 android:id="@+id/rectag"
                 android:layout_centerVertical="true"
