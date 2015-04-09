@@ -23,6 +23,13 @@
         <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject_8_April/app/build/intermediates/pre-dexed/debug/classes-882d0e794649f3a0911de54a3562c55a7ea7dcf7.jar" />
     </item>
     <item
+        jar="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/libs/xom-1.2.7.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="679da5e69da379f870201f9611bd49a0dd528188">
+        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/build/intermediates/pre-dexed/debug/xom-1.2.7-bcc87fc770d5d158d9622aa2f6b25fd0bc3039df.jar" />
+    </item>
+    <item
         jar="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -42,6 +49,13 @@
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
         <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject_8_April/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-6d043554f535e4f9216cc7e817fc14282af1071b.jar" />
+    </item>
+    <item
+        jar="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/lib/jcaki-1.0-Alpha.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e09bf741fa0572b314c1997cc98578d98e47c37b">
+        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/build/intermediates/pre-dexed/debug/jcaki-1.0-Alpha-830d3479199381df2793585b6fa4b6a7b5402cc1.jar" />
     </item>
     <item
         jar="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"

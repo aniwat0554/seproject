@@ -97,7 +97,7 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
                 try {
                     m.setDataSource(path);
                     m.prepare();
-                    m.start();
+                 //   m.start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

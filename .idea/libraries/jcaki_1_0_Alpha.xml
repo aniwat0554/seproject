@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jcaki-1.0-Alpha">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/lib/jcaki-1.0-Alpha.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

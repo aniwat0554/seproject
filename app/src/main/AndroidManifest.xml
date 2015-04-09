@@ -24,6 +24,10 @@
             android:label="@string/title_activity_fileview" >
         </activity>
         <activity
+            android:name=".playbackitf"
+          >
+        </activity>
+        <activity
             android:name=".WaveFormView"
             android:label="@string/title_activity_wave_form_view" >
         </activity>
