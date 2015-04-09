@@ -207,7 +207,18 @@ public class edit extends Activity
         // they create.
         mWasGetContentIntent = intent.getBooleanExtra(
                 "was_get_content_intent", false);
-        mFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/test.mp3";
+        Intent intent2 = this.getIntent() ;
+        if (intent2!=null) {
+            if (intent2.getExtras() != null) {
+                String recieved = intent2.getExtras().getString("send");
+                mFilename = recieved;
+            }
+            else mFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/test.mp3";
+        }
+        else {
+            mFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/test.mp3";
+        }
+
         //mFilename = "/storage/MicroSD/music/";
         mSoundFile = null;
         mKeyDown = false;

@@ -180,8 +180,8 @@ public class MainActivity extends ActionBarActivity {
                     recorder= new MediaRecorder();
                     recorder.reset();
                     recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                    recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
-                    recorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+                    recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                    recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 
                     Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
                     //resultSet.getString(resultSet.getColumnIndex("ID"));

@@ -91,7 +91,7 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
                 String songid = resultSet.getString(0);
                 MediaPlayer m = new MediaPlayer();
                 String path = Environment.getExternalStorageDirectory().getAbsolutePath() + resultSet.getString(1);
-                Intent i = new Intent(context.getApplicationContext(), MainActivity.class);
+                Intent i = new Intent(context.getApplicationContext(), edit.class);
                 i.putExtra("send",path);
                 context.startActivity(i);
                 try {

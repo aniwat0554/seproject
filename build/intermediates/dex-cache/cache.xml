@@ -23,11 +23,32 @@
         <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject_8_April/app/build/intermediates/pre-dexed/debug/classes-882d0e794649f3a0911de54a3562c55a7ea7dcf7.jar" />
     </item>
     <item
+        jar="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/build/intermediates/pre-dexed/debug/classes-8c7a793857011528133a0051a6d84b307fcf2ebd.jar" />
+    </item>
+    <item
+        jar="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/build/intermediates/pre-dexed/debug/classes-b8e562fd903317c3b8f2280c59dd11ec18904f4e.jar" />
+    </item>
+    <item
         jar="/Users/MacBookAir/Documents/AndroidT/seproject_8_April/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
         <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject_8_April/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-6d043554f535e4f9216cc7e817fc14282af1071b.jar" />
+    </item>
+    <item
+        jar="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/MacBookAir/Documents/AndroidT/seproject_interface/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-9d21c42e26d6db8ea9e50e306d26843869f3f288.jar" />
     </item>
 
 </items>
