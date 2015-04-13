@@ -46,6 +46,7 @@ public class MainActivity extends ActionBarActivity {
     private Button fileview;
     private Button tan;
     private String id;
+    private int pausetime;
     private String idfortag;
     private Button test;
     private TextView testtext ;
