@@ -17,20 +17,12 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.os.Build;
-import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
 
 
 public class playbackitf extends ActionBarActivity {
@@ -58,7 +50,7 @@ public class playbackitf extends ActionBarActivity {
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             Bitmap ring = BitmapFactory.decodeResource(res, R.drawable.ring);
             mPaint.setShader(new BitmapShader(ring, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-            mOval = new RectF(0, 0, mBack.getWidth()/2, mBack.getHeight()/2);
+            mOval = new RectF(0, 0, mBack.getWidth(), mBack.getHeight());
             mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mTextPaint.setTextSize(24);
             mTextPaint.setTextAlign(Paint.Align.CENTER);
@@ -94,7 +86,9 @@ public class playbackitf extends ActionBarActivity {
                     mTextPaint);
         }
     }
-        @Override
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
       //  getMenuInflater().inflate(R.menu.menu_playbackitf, menu);

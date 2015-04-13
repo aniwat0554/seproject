@@ -238,7 +238,7 @@ public class MainActivity extends ActionBarActivity {
                         e.printStackTrace();
                     }
                     c_fin = Calendar.getInstance();
-                    editText.setText(starttime);
+                    editText.setText("New Record");
                     // editText.setText(""+(c_fin.getTime().getTime()-c.getTime().getTime())) ;
                     int duration = (int) (c_fin.getTime().getTime() - c.getTime().getTime());
                     mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES ((SELECT max(ID) FROM SoundInfo6)+1,'" + filenamesave + "','" + fileName + "','" + starttime + "'," + duration + ");;");
