@@ -59,12 +59,15 @@ public class MainActivity extends ActionBarActivity {
     private TextView testtext ;
     private String filenamesave;
     private String tagtime;
+    private int pausetime=0;
+    private int pausestart;
     private SQLiteDatabase mydatabase;
     public static  String starttime = "" ;
-   public static Calendar c = Calendar.getInstance();
+    public static Calendar c = Calendar.getInstance();
     public static Calendar c_fin ;
     public static Calendar c_tag ;
-   public static Timestamp a = new Timestamp(c.getTimeInMillis()) ;
+    public static Calendar c_pause ;
+    public static Timestamp a = new Timestamp(c.getTimeInMillis()) ;
     public static Time c_time;
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -79,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
         btnSave = (Button)findViewById(R.id.btnSave);
         play = (Button)findViewById(R.id.play);
         fileview = (Button)findViewById(R.id.file);
-         editText = (EditText)findViewById(R.id.username);
+        editText = (EditText)findViewById(R.id.username);
         tan = (Button)findViewById(R.id.rectag);
         editText.setText(getText("username"));
         test = (Button)findViewById(R.id.test);
@@ -91,7 +94,7 @@ public class MainActivity extends ActionBarActivity {
         tan.setEnabled(false);
         String temp = a.toString() ;
         editText.setText(""+temp.substring(0,temp.length()-4)) ;
-       Intent intent2 = this.getIntent() ;
+        Intent intent2 = this.getIntent() ;
         if (intent2!=null) {
             if (intent2.getExtras() != null) {
                 String recieved = intent2.getExtras().getString("send");
@@ -104,7 +107,7 @@ public class MainActivity extends ActionBarActivity {
         Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
         resultSet.moveToFirst();
         if(resultSet.getString(0) == null){
-           mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES (0,'test','test','Soo',0);;");
+            mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES (0,'test','test','Soo',0);;");
         }
 
         //mydatabase.execSQL("INSERT INTO SoundInfo2 (ID,Filename, Name) VALUES (1,'test','test');;");
@@ -186,8 +189,8 @@ public class MainActivity extends ActionBarActivity {
                 tan.setEnabled(true);
                 fileName = editText.getText().toString();
                 if (btnSave.getText() == "Record") {
-                //    c = Calendar.getInstance() ;
-                  //  editText.setText(c.toString()) ;
+                    //    c = Calendar.getInstance() ;
+                    //  editText.setText(c.toString()) ;
                     recorder= new MediaRecorder();
                     recorder.reset();
                     recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -219,7 +222,7 @@ public class MainActivity extends ActionBarActivity {
                     Date date ;
                     try {
                         date = format.parse(c.toString());
-                       // date+=Calendar. ;
+                        // date+=Calendar. ;
                     }catch(Exception e) {
                         date = new Date() ;
                     }
@@ -233,17 +236,20 @@ public class MainActivity extends ActionBarActivity {
                     btnSave.setText("Stop");
                 } else {
                     try {
+
                         stop(v);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                     c_fin = Calendar.getInstance();
                     editText.setText("New Record");
                     // editText.setText(""+(c_fin.getTime().getTime()-c.getTime().getTime())) ;
-                    int duration = (int) (c_fin.getTime().getTime() - c.getTime().getTime());
+                    int duration = (int) (c_fin.getTime().getTime() - c.getTime().getTime())-pausetime;
                     mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES ((SELECT max(ID) FROM SoundInfo6)+1,'" + filenamesave + "','" + fileName + "','" + starttime + "'," + duration + ");;");
                     btnSave.setText("Record");
                     tan.setEnabled(false);
+                    pausetime = 0;
                 }
             }
         });
@@ -252,7 +258,8 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 try {
                     if(play.getText()=="pause") {
-
+                        c_pause = Calendar.getInstance() ;
+                        pausestart = (int)c_pause.getTime().getTime();
                         ar.pause();
                         //Toast.makeText(getApplicationContext(),"IsPause ="+ar.isPause, Toast.LENGTH_LONG).show();
                         play.setText("resume");
@@ -260,7 +267,8 @@ public class MainActivity extends ActionBarActivity {
                     else {
                         Toast.makeText(getApplicationContext(),"IsPause ="+ar.isPause, Toast.LENGTH_LONG).show();
                         ar.resume();
-
+                        c_pause = Calendar.getInstance();
+                        pausetime = pausetime+(int)(c_pause.getTime().getTime())-pausestart;
                         play.setText("pause") ;
                     }
                     play(v);
@@ -274,6 +282,8 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent in = new Intent(getApplicationContext(), fileview.class);
                 startActivity(in);
+                /*Intent in = new Intent(getApplicationContext(), test.class);
+                startActivity(in);*/
             }
         });
         test.setOnClickListener(new View.OnClickListener() {
@@ -323,7 +333,7 @@ public class MainActivity extends ActionBarActivity {
         File arread = new File(ar.filePath) ;
         File arwrite = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/sound "+id+".wav") ;
         if(!arwrite.exists()) arwrite.createNewFile();
-      PcmAudioHelper.generateSilenceWavFile((WavAudioFormat.wavFormat(8000,16,1)),arwrite,3) ;
+        PcmAudioHelper.generateSilenceWavFile((WavAudioFormat.wavFormat(8000,16,1)),arwrite,3) ;
         PcmAudioHelper.convertRawToWav(WavAudioFormat.wavFormat(8000,16,1),arread,arwrite);
         recorder  = null;
         Toast.makeText(getApplicationContext(), "Audio recorded successfully",
@@ -331,26 +341,26 @@ public class MainActivity extends ActionBarActivity {
         dumbdb();
     }
     public void dumbdb(){
-            File sd = Environment.getExternalStorageDirectory();
-            File data = Environment.getDataDirectory();
-            FileChannel source = null;
-            FileChannel destination = null;
-            String currentDBPath = "/data/cpe.phaith.androidfundamental/databases/song database";
-            String backupDBPath = "/song database.db";
-            File currentDB = new File(data, currentDBPath);
-            File backupDB = new File(sd, backupDBPath);
-            try {
-                source = new FileInputStream(currentDB).getChannel();
-                destination = new FileOutputStream(backupDB).getChannel();
-                destination.transferFrom(source, 0, source.size());
-                source.close();
-                destination.close();
-                // Toast.makeText(this, "DB Exported!", Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(), "Yo fuck you", Toast.LENGTH_LONG).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
-            }
+        File sd = Environment.getExternalStorageDirectory();
+        File data = Environment.getDataDirectory();
+        FileChannel source = null;
+        FileChannel destination = null;
+        String currentDBPath = "/data/cpe.phaith.androidfundamental/databases/song database";
+        String backupDBPath = "/song database.db";
+        File currentDB = new File(data, currentDBPath);
+        File backupDB = new File(sd, backupDBPath);
+        try {
+            source = new FileInputStream(currentDB).getChannel();
+            destination = new FileOutputStream(backupDB).getChannel();
+            destination.transferFrom(source, 0, source.size());
+            source.close();
+            destination.close();
+            // Toast.makeText(this, "DB Exported!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Yo fuck you", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+        }
 
     }
     public void play(View view) throws IllegalArgumentException,

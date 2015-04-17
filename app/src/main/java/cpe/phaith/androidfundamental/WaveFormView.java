@@ -51,7 +51,7 @@ public class WaveFormView extends View {
     private Paint mBorderLinePaint;
     private Paint mPlaybackLinePaint;
     private Paint mTimecodePaint;
-
+    private String id;
     private CheapSoundFile mSoundFile;
     private int[] mLenByZoomLevel;
     private double[][] mValuesByZoomLevel;
@@ -71,10 +71,10 @@ public class WaveFormView extends View {
     private GestureDetector mGestureDetector;
     private ScaleGestureDetector mScaleGestureDetector;
     private boolean mInitialized;
+    private float intv[] = new float[1];
 
     public WaveFormView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         // We don't want keys, the markers get these
         setFocusable(false);
 
@@ -84,17 +84,17 @@ public class WaveFormView extends View {
         //        getResources().getColor(R.drawable.grid_line));
         mSelectedLinePaint = new Paint();
         mSelectedLinePaint.setAntiAlias(false);
-        //mSelectedLinePaint.setColor(
-        //        getResources().getColor(R.drawable.waveform_selected));
+        mSelectedLinePaint.setColor(
+                getResources().getColor(R.color.material_blue_grey_900));
         mUnselectedLinePaint = new Paint();
         mUnselectedLinePaint.setAntiAlias(false);
-        //mUnselectedLinePaint.setColor(
-        //        getResources().getColor(R.drawable.waveform_unselected));
+        mUnselectedLinePaint.setColor(
+                getResources().getColor(R.color.material_blue_grey_900));
         mUnselectedBkgndLinePaint = new Paint();
         mUnselectedBkgndLinePaint.setAntiAlias(false);
-        //mUnselectedBkgndLinePaint.setColor(
-        //        getResources().getColor(
-        //                R.drawable.waveform_unselected_bkgnd_overlay));
+        mUnselectedBkgndLinePaint.setColor(
+                getResources().getColor(
+                        R.color.abc_primary_text_material_dark));
         mBorderLinePaint = new Paint();
         mBorderLinePaint.setAntiAlias(true);
         mBorderLinePaint.setStrokeWidth(1.5f);
@@ -160,7 +160,7 @@ public class WaveFormView extends View {
         mHeightsAtThisZoomLevel = null;
         mOffset = 0;
         mPlaybackPos = -1;
-        mSelectionStart = 0;
+        mSelectionStart = 5;
         mSelectionEnd = 0;
         mDensity = 1.0f;
         mInitialized = false;
@@ -186,7 +186,9 @@ public class WaveFormView extends View {
         }
         return true;
     }
-
+    public void setOffset(){
+        mOffset = 2000;
+    }
     public boolean hasSoundFile() {
         return mSoundFile != null;
     }
@@ -216,6 +218,10 @@ public class WaveFormView extends View {
         }
     }
 
+    public void setInterval(float interval[]){
+        intv = interval;
+        float a = intv[0];
+    }
     public boolean canZoomIn() {
         return (mZoomLevel > 0);
     }
@@ -285,7 +291,7 @@ public class WaveFormView extends View {
     }
 
     public void setParameters(int start, int end, int offset) {
-        mSelectionStart = start;
+        mSelectionStart = start+1000;
         mSelectionEnd = end;
         mOffset = offset;
     }
@@ -362,16 +368,63 @@ public class WaveFormView extends View {
         }
 
         // Draw waveform
+        //int j =mSelectionEnd/4;
+        int j = 0;
+        int k =0;
+        //Paint paint;
+        //paint = mSelectedLinePaint;
         for (i = 0; i < width; i++) {
             Paint paint;
-            if (i + start >= mSelectionStart &&
-                    i + start < mSelectionEnd) {
+            //if (i + start >= mSelectionStart &&
+            //        i + start < mSelectionEnd) {
+            //    paint = mSelectedLinePaint;
+            /*if (i + start < mSelectionEnd/4 || i+start > mSelectionEnd/4*3) {
                 paint = mSelectedLinePaint;
             } else {
                 drawWaveformLine(canvas, i, 0, measuredHeight,
                         mUnselectedBkgndLinePaint);
                 paint = mUnselectedLinePaint;
+            }*/
+            if(j+1 != intv.length) {
+                if (i + start > intv[j] * mSelectionEnd) {
+                    j++;
+
+                }
             }
+            if(j % 2 == 0){
+                paint = mSelectedLinePaint;
+            }else{
+                drawWaveformLine(canvas, i, 0, measuredHeight,
+                        mUnselectedBkgndLinePaint);
+                paint = mUnselectedLinePaint;
+            }
+
+//test
+            /*if(i >= j ){
+
+
+                if(k % 2 != 0) {
+                    mUnselectedBkgndLinePaint.setColor(
+                            getResources().getColor(
+                                    R.color.abc_primary_text_material_dark));
+
+                }else{
+                    mUnselectedBkgndLinePaint.setColor(
+                            getResources().getColor(
+                                    R.color.abc_primary_text_material_light));
+
+                }
+
+                if(k == 1){
+                    k = 0;
+                }
+                k++;
+                j=j+j;
+            }
+            drawWaveformLine(canvas, i, 0, measuredHeight,
+                    mUnselectedBkgndLinePaint);
+            paint = mUnselectedLinePaint;*/
+//test
             drawWaveformLine(
                     canvas, i,
                     ctr - mHeightsAtThisZoomLevel[start + i],
@@ -381,8 +434,9 @@ public class WaveFormView extends View {
             if (i + start == mPlaybackPos) {
                 canvas.drawLine(i, 0, i, measuredHeight, mPlaybackLinePaint);
             }
+            //j++;
         }
-
+        j = 0;
         // If we can see the right edge of the waveform, draw the
         // non-waveform area to the right as unselected
         for (i = width; i < measuredWidth; i++) {

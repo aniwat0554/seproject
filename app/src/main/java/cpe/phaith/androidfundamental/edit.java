@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnSeekCompleteListener;
@@ -39,9 +40,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsoluteLayout;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +80,7 @@ public class edit extends Activity
         implements MarkerView.MarkerListener,
         WaveFormView.WaveformListener
 {
+    public SQLiteDatabase mydatabase;
     private long mLoadingStartTime;
     private long mLoadingLastUpdateTime;
     private boolean mLoadingKeepGoing;
@@ -92,6 +96,7 @@ public class edit extends Activity
     private int mYear;
     private String mExtension;
     private String mRecordingFilename;
+    private String id;
     private int mNewFileKind;
     private Uri mRecordingUri;
     private boolean mWasGetContentIntent;
@@ -107,6 +112,7 @@ public class edit extends Activity
     private boolean mKeyDown;
     private String mCaption = "";
     private int mWidth;
+    private AlertDialog dialog;
     private int mMaxPos;
     private int mStartPos;
     private int mEndPos;
@@ -135,7 +141,13 @@ public class edit extends Activity
     private int mMarkerRightInset;
     private int mMarkerTopOffset;
     private int mMarkerBottomOffset;
+    private float intv[];
+    private Button teststart8;
+    private Context mContext;
+    private String[] partname;
+    //private int tagtime;
 
+    Cursor resultSet;
     // Result codes
     private static final int REQUEST_CODE_RECORD = 1;
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 2;
@@ -188,12 +200,12 @@ public class edit extends Activity
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        mydatabase = openOrCreateDatabase("song database",MODE_PRIVATE,null);
 
         mRecordingFilename = null;
         mRecordingUri = null;
         mPlayer = null;
         mIsPlaying = false;
-
         Intent intent = getIntent();
 
         if (intent.getBooleanExtra("privacy", false)) {
@@ -212,12 +224,19 @@ public class edit extends Activity
             if (intent2.getExtras() != null) {
                 String recieved = intent2.getExtras().getString("send");
                 mFilename = recieved;
+                //String id = intent2.getExtras().getString("sendid");
+                intv = intent2.getExtras().getFloatArray("sendinterval");
+                partname = intent2.getStringArrayExtra("name");
+                resultSet = mydatabase.rawQuery("Select ID,Name,Filename,timestamp,duration from SoundInfo6",null);
+                //
             }
             else mFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/test.mp3";
         }
         else {
             mFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/test.mp3";
         }
+
+
 
         //mFilename = "/storage/MicroSD/music/";
         mSoundFile = null;
@@ -242,6 +261,41 @@ public class edit extends Activity
         if (!mFilename.equals("record")) {
             loadFromFile();
         }
+        /*teststart.setOnClickListener(
+
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //mWaveformView.setOffset();
+                    }
+                }
+        );*/
+        teststart8 = (Button)findViewById(R.id.teststart8);
+        teststart8.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                AlertDialog.Builder builder = new AlertDialog.Builder(edit.this);
+                builder.setTitle("Colors");
+
+                final CharSequence str[] = partname;
+
+                builder.setItems(str, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int position) {
+                        // TODO Auto-generated method stub
+                        //Toast.makeText(mContext, "You are selected: " + str[position], Toast.LENGTH_SHORT).show();
+                        mStartPos = (int)(intv[position]*(float)mEndPos);
+                    }
+                });
+
+                dialog = builder.create();
+                dialog.show();
+            }
+        });
+
     }
 
     /** Called with the activity is finally destroyed. */
@@ -339,7 +393,7 @@ public class edit extends Activity
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_SPACE) {
-            onPlay(mStartPos);
+            onPlay(mStartPos+1000);
             return true;
         }
 
@@ -597,8 +651,9 @@ public class edit extends Activity
         enableDisableButtons();
 
         mWaveformView = (WaveFormView)findViewById(R.id.waveform);
-        mWaveformView.setListener(this);
 
+        mWaveformView.setListener(this);
+        mWaveformView.setInterval(intv);
         mInfo = (TextView)findViewById(R.id.info);
         mInfo.setText(mCaption);
 
@@ -607,9 +662,11 @@ public class edit extends Activity
         mLastDisplayedEndPos = -1;
 
         if (mSoundFile != null && !mWaveformView.hasSoundFile()) {
+
             mWaveformView.setSoundFile(mSoundFile);
             mWaveformView.recomputeHeights(mDensity);
             mMaxPos = mWaveformView.maxPos();
+
         }
 
         mStartMarker = (MarkerView)findViewById(R.id.startmarker);
@@ -784,6 +841,7 @@ public class edit extends Activity
         /*if (mEndPos > mMaxPos)
             mEndPos = mMaxPos;*/
         mEndPos = mMaxPos;
+        //mStartPos = mMaxPos;
         mCaption =
                 mSoundFile.getFiletype() + ", " +
                         mSoundFile.getSampleRate() + " Hz, " +
@@ -1022,6 +1080,7 @@ public class edit extends Activity
         if (mPlayer != null && mPlayer.isPlaying()) {
             mPlayer.pause();
         }
+        //mStartPos = m
         mWaveformView.setPlayback(-1);
         mIsPlaying = false;
         enableDisableButtons();

@@ -32,6 +32,7 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
 
     private SQLiteDatabase dataB ;
     private Cursor resultSet ;
+    private Cursor tagset ;
     //public SQLiteDatabase mydatabase;
 
 
@@ -66,6 +67,7 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
                 resultSet.moveToPosition(position);
                 String songid = resultSet.getString(0);
                 String path = Environment.getExternalStorageDirectory().getAbsolutePath()+resultSet.getString(1);
+                //String id = resultSet.getString(0);
                 File file = new File(path);
                 boolean deleted = file.delete();
                 if(deleted) Toast.makeText(getContext(), "DELETE OK", Toast.LENGTH_LONG).show();
@@ -86,13 +88,43 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "PLAY", Toast.LENGTH_LONG).show();
-                resultSet = dataB.rawQuery("Select ID,Filename from SoundInfo6",null);
+                resultSet = dataB.rawQuery("Select ID,Filename,duration from SoundInfo6",null);
+                //tagset = dataB.rawQuery("Select ID,Filename from SoundInfo6",null);
                 resultSet.moveToPosition(position);
+
                 String songid = resultSet.getString(0);
                 MediaPlayer m = new MediaPlayer();
                 String path = Environment.getExternalStorageDirectory().getAbsolutePath() + resultSet.getString(1);
+                String id = resultSet.getString(0);
+                int duration = Integer.parseInt(resultSet.getString(2));
+
+                tagset = dataB.rawQuery("Select PART,TagTime,Name from SoundStruct where ID = "+id,null);
+                float interval[] = new float[tagset.getCount()];
                 Intent i = new Intent(context.getApplicationContext(), edit.class);
+
+                tagset.moveToFirst();
+                for(int l = 0;l != tagset.getCount();l++){
+                    interval[l] = (float)tagset.getInt(1)/(float)duration;
+                    tagset.moveToNext();
+                }
+                tagset.moveToFirst();
+                String[] name = new String[tagset.getCount()];
+                for(int p = 0;p != tagset.getCount();p++){
+                    name[p] = tagset.getString(2);
+                    tagset.moveToNext();
+                }
+                int[] tagtime;
+                tagset.moveToFirst();
+                tagtime = new int[tagset.getCount()];
+                for(int p = 0;p != tagset.getCount();p++){
+                    tagtime[p] = tagset.getInt(1);
+                    tagset.moveToNext();
+                }
                 i.putExtra("send",path);
+                i.putExtra("sendinterval",interval);
+                i.putExtra("name",name);
+                i.putExtra("tagtime",tagtime);
+                //i.put
                 context.startActivity(i);
                 try {
                     m.setDataSource(path);

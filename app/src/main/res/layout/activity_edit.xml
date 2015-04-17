@@ -68,6 +68,12 @@
         android:layout_height="62dip"
         android:gravity="center" >
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/teststart8" />
+
         <ImageButton android:id="@+id/rew"
             android:layout_width="64dip"
             android:layout_height="52dip"
