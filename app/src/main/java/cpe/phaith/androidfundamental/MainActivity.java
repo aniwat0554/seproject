@@ -27,6 +27,7 @@ import android.view.View.OnClickListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat ;
 import java.util.Date ;
 import java.io.File;
@@ -58,14 +59,17 @@ public class MainActivity extends ActionBarActivity {
     private Button test;
     private TextView testtext ;
     private String filenamesave;
+    public TextView timecounter ;
     private String tagtime;
     private SQLiteDatabase mydatabase;
+    public Timer T=new Timer();
+    int tempcount = 0 ;
     public static  String starttime = "" ;
    public static Calendar c = Calendar.getInstance();
     public static Calendar c_fin ;
     public static Calendar c_tag ;
    public static Timestamp a = new Timestamp(c.getTimeInMillis()) ;
-    public static Time c_time;
+int count = 0 ;
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -75,6 +79,7 @@ public class MainActivity extends ActionBarActivity {
         ar = new AudioRecorder() ;
 
         testtext = (TextView)findViewById((R.id.textView4)) ;
+        timecounter = (TextView)findViewById((R.id.timecounter)) ;
         mydatabase = openOrCreateDatabase("song database",MODE_PRIVATE,null);
         btnSave = (Button)findViewById(R.id.btnSave);
         play = (Button)findViewById(R.id.play);
@@ -196,7 +201,36 @@ public class MainActivity extends ActionBarActivity {
 
                     Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
                     //resultSet.getString(resultSet.getColumnIndex("ID"));
+                    ////
+                    count = 0 ;
 
+                    Time c_time;
+
+                    T.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+
+                                    DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                                    Date tt = new Date((long) count*1000) ;
+                                    String timec = formatter.format(tt) ;
+                                   timecounter.setText(timec);
+                                    count++;
+                                }
+                            });
+                        }
+                    }, 1000, 1000);
+
+
+
+
+
+
+                    /////
                     resultSet.moveToFirst();
                     //resultSet.moveToPosition(3);
 
@@ -215,6 +249,7 @@ public class MainActivity extends ActionBarActivity {
                     recorder.setOutputFile(outputFile);
                     c = Calendar.getInstance() ;
                     String string = "3 Jan 2015" ;
+
                     SimpleDateFormat format = new SimpleDateFormat("EEE d MMMM, yyyy", Locale.ENGLISH);
                     Date date ;
                     try {
@@ -253,6 +288,10 @@ public class MainActivity extends ActionBarActivity {
                 try {
                     if(play.getText()=="pause") {
 
+                            tempcount = count ;
+                            //this is 'Pause' button click listener
+                            T.cancel();
+
                         ar.pause();
                         //Toast.makeText(getApplicationContext(),"IsPause ="+ar.isPause, Toast.LENGTH_LONG).show();
                         play.setText("resume");
@@ -260,6 +299,27 @@ public class MainActivity extends ActionBarActivity {
                     else {
                         Toast.makeText(getApplicationContext(),"IsPause ="+ar.isPause, Toast.LENGTH_LONG).show();
                         ar.resume();
+                        count = tempcount ;
+                        T=new Timer();
+                        T.scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                                runOnUiThread(new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                                        Date tt = new Date((long)count*1000) ;                                        String timec = formatter.format(tt) ;
+                                        timecounter.setText(timec);
+
+                                        count++;
+                                    }
+                                });
+                            }
+                        }, 1000, 1000);
+
+
 
                         play.setText("pause") ;
                     }
