@@ -27,6 +27,7 @@ import android.view.View.OnClickListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat ;
 import java.util.Date ;
 import java.io.File;
@@ -58,14 +59,17 @@ public class MainActivity extends ActionBarActivity {
     private Button test;
     private TextView testtext ;
     private String filenamesave;
+    public TextView timecounter ;
     private String tagtime;
     private SQLiteDatabase mydatabase;
+    public Timer T=new Timer();
+    int tempcount = 0 ;
     public static  String starttime = "" ;
-   public static Calendar c = Calendar.getInstance();
+    public static Calendar c = Calendar.getInstance();
     public static Calendar c_fin ;
     public static Calendar c_tag ;
-   public static Timestamp a = new Timestamp(c.getTimeInMillis()) ;
-    public static Time c_time;
+    public static Timestamp a = new Timestamp(c.getTimeInMillis()) ;
+    int count = 0 ;
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -75,11 +79,12 @@ public class MainActivity extends ActionBarActivity {
         ar = new AudioRecorder() ;
 
         testtext = (TextView)findViewById((R.id.textView4)) ;
+        timecounter = (TextView)findViewById((R.id.timecounter)) ;
         mydatabase = openOrCreateDatabase("song database",MODE_PRIVATE,null);
         btnSave = (Button)findViewById(R.id.btnSave);
         play = (Button)findViewById(R.id.play);
         fileview = (Button)findViewById(R.id.file);
-         editText = (EditText)findViewById(R.id.username);
+        editText = (EditText)findViewById(R.id.username);
         tan = (Button)findViewById(R.id.rectag);
         editText.setText(getText("username"));
         test = (Button)findViewById(R.id.test);
@@ -91,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
         tan.setEnabled(false);
         String temp = a.toString() ;
         editText.setText(""+temp.substring(0,temp.length()-4)) ;
-       Intent intent2 = this.getIntent() ;
+        Intent intent2 = this.getIntent() ;
         if (intent2!=null) {
             if (intent2.getExtras() != null) {
                 String recieved = intent2.getExtras().getString("send");
@@ -104,7 +109,7 @@ public class MainActivity extends ActionBarActivity {
         Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
         resultSet.moveToFirst();
         if(resultSet.getString(0) == null){
-           mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES (0,'test','test','Soo',0);;");
+            mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES (0,'test','test','Soo',0);;");
         }
 
         //mydatabase.execSQL("INSERT INTO SoundInfo2 (ID,Filename, Name) VALUES (1,'test','test');;");
@@ -186,8 +191,8 @@ public class MainActivity extends ActionBarActivity {
                 tan.setEnabled(true);
                 fileName = editText.getText().toString();
                 if (btnSave.getText() == "Record") {
-                //    c = Calendar.getInstance() ;
-                  //  editText.setText(c.toString()) ;
+                    //    c = Calendar.getInstance() ;
+                    //  editText.setText(c.toString()) ;
                     recorder= new MediaRecorder();
                     recorder.reset();
                     recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -196,7 +201,36 @@ public class MainActivity extends ActionBarActivity {
 
                     Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
                     //resultSet.getString(resultSet.getColumnIndex("ID"));
+                    ////
+                    count = 0 ;
 
+                    Time c_time;
+
+                    T.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+
+                                    DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                                    Date tt = new Date((long) count*1000) ;
+                                    String timec = formatter.format(tt) ;
+                                    timecounter.setText(timec);
+                                    count++;
+                                }
+                            });
+                        }
+                    }, 1000, 1000);
+
+
+
+
+
+
+                    /////
                     resultSet.moveToFirst();
                     //resultSet.moveToPosition(3);
 
@@ -215,11 +249,12 @@ public class MainActivity extends ActionBarActivity {
                     recorder.setOutputFile(outputFile);
                     c = Calendar.getInstance() ;
                     String string = "3 Jan 2015" ;
+
                     SimpleDateFormat format = new SimpleDateFormat("EEE d MMMM, yyyy", Locale.ENGLISH);
                     Date date ;
                     try {
                         date = format.parse(c.toString());
-                       // date+=Calendar. ;
+                        // date+=Calendar. ;
                     }catch(Exception e) {
                         date = new Date() ;
                     }
@@ -253,6 +288,10 @@ public class MainActivity extends ActionBarActivity {
                 try {
                     if(play.getText()=="pause") {
 
+                        tempcount = count ;
+                        //this is 'Pause' button click listener
+                        T.cancel();
+
                         ar.pause();
                         //Toast.makeText(getApplicationContext(),"IsPause ="+ar.isPause, Toast.LENGTH_LONG).show();
                         play.setText("resume");
@@ -260,6 +299,27 @@ public class MainActivity extends ActionBarActivity {
                     else {
                         Toast.makeText(getApplicationContext(),"IsPause ="+ar.isPause, Toast.LENGTH_LONG).show();
                         ar.resume();
+                        count = tempcount ;
+                        T=new Timer();
+                        T.scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                                runOnUiThread(new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                                        Date tt = new Date((long)count*1000) ;                                        String timec = formatter.format(tt) ;
+                                        timecounter.setText(timec);
+
+                                        count++;
+                                    }
+                                });
+                            }
+                        }, 1000, 1000);
+
+
 
                         play.setText("pause") ;
                     }
@@ -323,7 +383,7 @@ public class MainActivity extends ActionBarActivity {
         File arread = new File(ar.filePath) ;
         File arwrite = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/sound "+id+".wav") ;
         if(!arwrite.exists()) arwrite.createNewFile();
-      PcmAudioHelper.generateSilenceWavFile((WavAudioFormat.wavFormat(8000,16,1)),arwrite,3) ;
+        PcmAudioHelper.generateSilenceWavFile((WavAudioFormat.wavFormat(8000,16,1)),arwrite,3) ;
         PcmAudioHelper.convertRawToWav(WavAudioFormat.wavFormat(8000,16,1),arread,arwrite);
         recorder  = null;
         Toast.makeText(getApplicationContext(), "Audio recorded successfully",
@@ -331,26 +391,26 @@ public class MainActivity extends ActionBarActivity {
         dumbdb();
     }
     public void dumbdb(){
-            File sd = Environment.getExternalStorageDirectory();
-            File data = Environment.getDataDirectory();
-            FileChannel source = null;
-            FileChannel destination = null;
-            String currentDBPath = "/data/cpe.phaith.androidfundamental/databases/song database";
-            String backupDBPath = "/song database.db";
-            File currentDB = new File(data, currentDBPath);
-            File backupDB = new File(sd, backupDBPath);
-            try {
-                source = new FileInputStream(currentDB).getChannel();
-                destination = new FileOutputStream(backupDB).getChannel();
-                destination.transferFrom(source, 0, source.size());
-                source.close();
-                destination.close();
-                // Toast.makeText(this, "DB Exported!", Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(), "Yo fuck you", Toast.LENGTH_LONG).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
-            }
+        File sd = Environment.getExternalStorageDirectory();
+        File data = Environment.getDataDirectory();
+        FileChannel source = null;
+        FileChannel destination = null;
+        String currentDBPath = "/data/cpe.phaith.androidfundamental/databases/song database";
+        String backupDBPath = "/song database.db";
+        File currentDB = new File(data, currentDBPath);
+        File backupDB = new File(sd, backupDBPath);
+        try {
+            source = new FileInputStream(currentDB).getChannel();
+            destination = new FileOutputStream(backupDB).getChannel();
+            destination.transferFrom(source, 0, source.size());
+            source.close();
+            destination.close();
+            // Toast.makeText(this, "DB Exported!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Yo fuck you", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+        }
 
     }
     public void play(View view) throws IllegalArgumentException,
