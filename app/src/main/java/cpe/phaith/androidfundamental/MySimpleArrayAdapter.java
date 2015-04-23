@@ -108,15 +108,17 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
                     tagset.moveToNext();
                 }
                 tagset.moveToFirst();
-                String[] name = new String[tagset.getCount()];
-                for(int p = 0;p != tagset.getCount();p++){
+                String[] name = new String[tagset.getCount()+1];
+                name[0] = "Begin";
+                for(int p = 1;p <= tagset.getCount();p++){
                     name[p] = tagset.getString(2);
                     tagset.moveToNext();
                 }
                 int[] tagtime;
                 tagset.moveToFirst();
-                tagtime = new int[tagset.getCount()];
-                for(int p = 0;p != tagset.getCount();p++){
+                tagtime = new int[tagset.getCount()+1];
+                tagtime[0] = 0;
+                for(int p = 1;p <= tagset.getCount();p++){
                     tagtime[p] = tagset.getInt(1);
                     tagset.moveToNext();
                 }
