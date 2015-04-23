@@ -1,6 +1,7 @@
 package cpe.phaith.androidfundamental;
 
 import android.app.AlertDialog;
+import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +14,7 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View.OnClickListener;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.text.DateFormat;
@@ -42,11 +45,28 @@ import cpe.phaith.androidfundamental.pcm.WavAudioFormat;
 
 
 public class MainActivity extends ActionBarActivity {
-    private AudioRecorder ar ;
+
+
+
+    public boolean isPause = true;
+    private static final int RECORDER_SAMPLERATE = 44100;
+    private static final int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_MONO;
+    private static final int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+    private AudioRecord recorder = null;
+    private Thread recordingThread = null;
+    private boolean isRecording = false;
+
+
+
+
+
+
+
+    //private testrecord2 ar ;
     private Context context;
     private Button btnSave;
     private EditText editText;
-    public MediaRecorder recorder;
+    public MediaRecorder recorder2;
     private String outputFile = null;
     private String oF = null;
     private String fileName = null;
@@ -55,6 +75,7 @@ public class MainActivity extends ActionBarActivity {
     private Button fileview;
     private Button tan;
     private String id;
+    private String filePath;
     private String idfortag;
     private Button test;
     private TextView testtext ;
@@ -74,9 +95,20 @@ public class MainActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //test
+        int bufferSize = AudioRecord.getMinBufferSize(RECORDER_SAMPLERATE,
+                RECORDER_CHANNELS, RECORDER_AUDIO_ENCODING);
+        //test
+
+
+
+
+
         oF = Environment.getExternalStorageDirectory().getAbsolutePath() + "/sound.aac";
         context = this;
-        ar = new AudioRecorder() ;
+        //ar = new testrecord2() ;
 
         testtext = (TextView)findViewById((R.id.textView4)) ;
         timecounter = (TextView)findViewById((R.id.timecounter)) ;
@@ -106,7 +138,7 @@ public class MainActivity extends ActionBarActivity {
         //c.get(Calendar.DATE)
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo6(ID INTEGER PRIMARY KEY,Filename VARCHAR,Name VARCHAR,timestamp VARCHAR,duration INTEGER);");
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundStruct(ID INTEGER,PART INTEGER,Name VARCHAR,TagTime INTEGER);");
-        Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
+        final Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
         resultSet.moveToFirst();
         if(resultSet.getString(0) == null){
             mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES (0,'test','test','Soo',0);;");
@@ -191,17 +223,11 @@ public class MainActivity extends ActionBarActivity {
                 tan.setEnabled(true);
                 fileName = editText.getText().toString();
                 if (btnSave.getText() == "Record") {
-                    //    c = Calendar.getInstance() ;
-                    //  editText.setText(c.toString()) ;
-                    recorder= new MediaRecorder();
-                    recorder.reset();
-                    recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                    recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-                    recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+                    //test
+                    initStart();
+                    //test
+                    startRecording();
 
-                    Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
-                    //resultSet.getString(resultSet.getColumnIndex("ID"));
-                    ////
                     count = 0 ;
 
                     Time c_time;
@@ -246,7 +272,6 @@ public class MainActivity extends ActionBarActivity {
                     createFolder();
                     outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/sound "+id+".aac";
                     filenamesave = "/Lecord/sound "+id+".wav";
-                    recorder.setOutputFile(outputFile);
                     c = Calendar.getInstance() ;
                     String string = "3 Jan 2015" ;
 
@@ -264,19 +289,23 @@ public class MainActivity extends ActionBarActivity {
 
                     starttime = format.format(date) ;
                     c.getTime().getTime() ;
-                    start(v);
+                    //start(v);
+                    filePath = filenamesave;
+                    startRecording();
                     btnSave.setText("Stop");
                 } else {
-                    try {
-                        stop(v);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    stopRecording();
+                    //
+
                     c_fin = Calendar.getInstance();
                     editText.setText("New Record");
                     // editText.setText(""+(c_fin.getTime().getTime()-c.getTime().getTime())) ;
                     int duration = (int) (c_fin.getTime().getTime() - c.getTime().getTime());
                     mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES ((SELECT max(ID) FROM SoundInfo6)+1,'" + filenamesave + "','" + fileName + "','" + starttime + "'," + duration + ");;");
+                    //btnSave.setText("Record");
+                    //tan.setEnabled(false);
+                    //
+                    editText.setText("New Record");
                     btnSave.setText("Record");
                     tan.setEnabled(false);
                 }
@@ -285,53 +314,51 @@ public class MainActivity extends ActionBarActivity {
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    if(play.getText()=="pause") {
+                if(play.getText()=="pause") {
 
-                        tempcount = count ;
-                        //this is 'Pause' button click listener
-                        T.cancel();
+                    tempcount = count ;
+                    //this is 'Pause' button click listener
+                    T.cancel();
 
-                        ar.pause();
-                        //Toast.makeText(getApplicationContext(),"IsPause ="+ar.isPause, Toast.LENGTH_LONG).show();
-                        play.setText("resume");
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),"IsPause ="+ar.isPause, Toast.LENGTH_LONG).show();
-                        ar.resume();
-                        count = tempcount ;
-                        T=new Timer();
-                        T.scheduleAtFixedRate(new TimerTask() {
-                            @Override
-                            public void run() {
-                                runOnUiThread(new Runnable()
-                                {
-                                    @Override
-                                    public void run()
-                                    {
-                                        DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-                                        Date tt = new Date((long)count*1000) ;                                        String timec = formatter.format(tt) ;
-                                        timecounter.setText(timec);
-
-                                        count++;
-                                    }
-                                });
-                            }
-                        }, 1000, 1000);
-
-
-
-                        play.setText("pause") ;
-                    }
-                    play(v);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    pause();
+                    //Toast.makeText(getApplicationContext(),"IsPause ="+ar.isPause, Toast.LENGTH_LONG).show();
+                    play.setText("resume");
                 }
+                else {
+                    Toast.makeText(getApplicationContext(),"IsPause ="+isPause, Toast.LENGTH_LONG).show();
+                    resume();
+                    count = tempcount ;
+                    T=new Timer();
+                    T.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                                    Date tt = new Date((long)count*1000) ;                                        String timec = formatter.format(tt) ;
+                                    timecounter.setText(timec);
+
+                                    count++;
+                                }
+                            });
+                        }
+                    }, 1000, 1000);
+
+
+
+                    play.setText("pause") ;
+                }
+//                    play(v);
             }
         });
         fileview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*Intent in = new Intent(getApplicationContext(), fileview.class);
+                startActivity(in);*/
                 Intent in = new Intent(getApplicationContext(), fileview.class);
                 startActivity(in);
             }
@@ -363,9 +390,9 @@ public class MainActivity extends ActionBarActivity {
     }
     public void start(View view){
         try {
-            recorder.prepare();
-            recorder.start();
-            ar.startRecording() ;
+            recorder2.prepare();
+            recorder2.start();
+//            ar.startRecording() ;
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -379,12 +406,12 @@ public class MainActivity extends ActionBarActivity {
     public void stop(View view) throws IOException {
         recorder.stop();
         recorder.release();
-        ar.stopRecording();
-        File arread = new File(ar.filePath) ;
-        File arwrite = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/sound "+id+".wav") ;
-        if(!arwrite.exists()) arwrite.createNewFile();
-        PcmAudioHelper.generateSilenceWavFile((WavAudioFormat.wavFormat(8000,16,1)),arwrite,3) ;
-        PcmAudioHelper.convertRawToWav(WavAudioFormat.wavFormat(8000,16,1),arread,arwrite);
+        //      ar.stopRecording();
+        //File arread = new File(ar.filePath) ;
+        //File arwrite = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/sound "+id+".wav") ;
+        //if(!arwrite.exists()) arwrite.createNewFile();
+        //PcmAudioHelper.generateSilenceWavFile((WavAudioFormat.wavFormat(8000,16,1)),arwrite,3) ;
+        //PcmAudioHelper.convertRawToWav(WavAudioFormat.wavFormat(8000,16,1),arread,arwrite);
         recorder  = null;
         Toast.makeText(getApplicationContext(), "Audio recorded successfully",
                 Toast.LENGTH_LONG).show();
@@ -470,4 +497,210 @@ public class MainActivity extends ActionBarActivity {
             return false;
         }
     }
+    private void initStart() {
+        //tan.setEnabled(true);
+        //fileName = editText.getText().toString();
+        //if (btnSave.getText() == "Record") {
+        //    c = Calendar.getInstance() ;
+        //  editText.setText(c.toString()) ;
+        //recorder2 = new MediaRecorder();
+        //recorder2.reset();
+        //recorder2.setAudioSource(MediaRecorder.AudioSource.MIC);
+        //recorder2.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        //recorder2.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+
+        final Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6", null);
+        //resultSet.getString(resultSet.getColumnIndex("ID"));
+        ////
+        count = 0;
+
+        Time c_time;
+
+        T.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                        Date tt = new Date((long) count * 1000);
+                        String timec = formatter.format(tt);
+                        timecounter.setText(timec);
+                        count++;
+                    }
+                });
+            }
+        }, 1000, 1000);
+
+
+        /////
+        resultSet.moveToFirst();
+        //resultSet.moveToPosition(3);
+
+        id = "" + (resultSet.getInt(0) + 1);
+                    /*if(id == null){
+                        id = "1";
+                    }*/
+        idfortag = id;
+        //id = Integer.parseInt(id);
+        Toast.makeText(getApplicationContext(), "" + id,
+                Toast.LENGTH_LONG).show();
+        //id = "test";
+        createFolder();
+        //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/sound " + id + ".aac";
+        filenamesave = "/Lecord/sound " + id + ".wav";
+
+        //recorder2.setOutputFile(outputFile);
+        c = Calendar.getInstance();
+        String string = "3 Jan 2015";
+
+        SimpleDateFormat format = new SimpleDateFormat("EEE d MMMM, yyyy", Locale.ENGLISH);
+        Date date;
+        try {
+            date = format.parse(c.toString());
+            // date+=Calendar. ;
+        } catch (Exception e) {
+            date = new Date();
+        }
+        System.out.println(format.format(date)); // Sat Jan 02 00:00:00 GMT 2010
+        a = new Timestamp(c.getTimeInMillis());
+        String temp = a.toString();
+
+        starttime = format.format(date);
+        c.getTime().getTime();
+        //start(v);
+        filePath = filenamesave;
+        //startRecording();
+        btnSave.setText("Stop");
+
+        //   }
+    }
+
+
+//test
+    int BufferElements2Rec = 2048; // want to play 2048 (2K) since 2 bytes we use only 1024
+    int BytesPerElement = 2; // 2 bytes in 16bit format
+
+    private void startRecording() {
+
+        recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
+                RECORDER_SAMPLERATE, RECORDER_CHANNELS,
+                RECORDER_AUDIO_ENCODING, BufferElements2Rec * BytesPerElement);
+
+        recorder.startRecording();
+        isRecording = true;
+        recordingThread = new Thread(new Runnable() {
+            public void run() {
+                writeAudioDataToFile();
+            }
+        }, "AudioRecorder Thread");
+        recordingThread.start();
+    }
+    //convert short to byte
+    private byte[] short2byte(short[] sData) {
+        int shortArrsize = sData.length;
+        byte[] bytes = new byte[shortArrsize * 2];
+        for (int i = 0; i < shortArrsize; i++) {
+            bytes[i * 2] = (byte) (sData[i] & 0x00FF);
+            bytes[(i * 2) + 1] = (byte) (sData[i] >> 8);
+            sData[i] = 0;
+        }
+        return bytes;
+
+    }
+
+    private void writeAudioDataToFile() {
+        // Write the output audio in byte
+
+        String filePath = "/sdcard/voice8K16bitmono.pcm";
+        short sData[] = new short[BufferElements2Rec];
+
+        FileOutputStream os = null;
+        try {
+            os = new FileOutputStream(filePath,true);
+            if(isPause== true) {
+                os = new FileOutputStream(filePath);
+            }else{
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        while (isRecording) {
+            // gets the voice output from microphone to byte format
+
+            recorder.read(sData, 0, BufferElements2Rec);
+            System.out.println("Short wirting to file" + sData.toString());
+            try {
+                // // writes the data to file from buffer
+                // // stores the voice buffer
+                byte bData[] = short2byte(sData);
+                os.write(bData, 0, BufferElements2Rec * BytesPerElement);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopRecording() {
+        // stops the recording activity
+        if (null != recorder) {
+            isRecording = false;
+            recorder.stop();
+            recorder.release();
+            recorder = null;
+            recordingThread = null;
+            if(!isPause) {
+                File arread = new File("/sdcard/voice8K16bitmono.pcm");
+                File arwrite = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Lecord/sound " + id + ".wav");
+                if (!arwrite.exists()) {
+                    try {
+                        arwrite.createNewFile();
+                        PcmAudioHelper.generateSilenceWavFile((WavAudioFormat.wavFormat(44100, 16, 1)), arwrite, 3);
+                        PcmAudioHelper.convertRawToWav(WavAudioFormat.wavFormat(44100, 16, 1), arread, arwrite);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    public void pause(){
+        isPause = true;
+        stopRecording();
+
+    }
+
+    public void resume(){
+
+        startRecording();
+        isPause = false;
+
+    }
+
+
+
+
+
+
+
 }

@@ -103,6 +103,16 @@
             android:layout_below="@+id/rectag"
             android:layout_centerHorizontal="true" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/timecounter"
+            android:layout_below="@+id/username"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 
     <FrameLayout

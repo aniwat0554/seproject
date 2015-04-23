@@ -1,15 +1,17 @@
 package cpe.phaith.androidfundamental;
-
+import android.app.Activity;
 import android.app.ListActivity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
+import android.widget.SearchView;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView.OnQueryTextListener;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -21,26 +23,13 @@ import java.text.SimpleDateFormat ;
 
 
 
-public class fileview extends ListActivity {
+public class fileview extends Activity {
+
     public SQLiteDatabase mydatabase;
     Cursor resultSet;
+    SearchView search;
+     ListView listv ;
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-
-        String item = (String)getListAdapter().getItem(position);
-        resultSet.moveToPosition(position);
-        MediaPlayer m = new MediaPlayer();
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + resultSet.getString(1);
-        try {
-            m.setDataSource(path);
-            m.prepare();
-            m.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Toast.makeText(this,item+""+position + "yeah test test",Toast.LENGTH_LONG).show();
-    }
     public String fromMillitoTime(int Duration) {
         String returner =  "" ;
         if(Duration < 60*1000) {
@@ -56,6 +45,10 @@ public class fileview extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_fileview);
+      //  search = new SearchView(fileview.this);
+        listv =(ListView)findViewById(R.id.listView);
+        search=(SearchView)findViewById(R.id.searchView11);
 
         mydatabase = openOrCreateDatabase("song database",MODE_PRIVATE,null);
         //mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo3(ID INTEGER PRIMARY KEY,Filename VARCHAR,Name VARCHAR);");
@@ -72,11 +65,47 @@ public class fileview extends ListActivity {
             kuy[i]+=formatter.format(tt) ;
             resultSet.moveToNext();
         }
+        final MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this,new ArrayList<String>(Arrays.asList(kuy)),mydatabase) ;
+        //***setOnQueryTextFocusChangeListener***
+        search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
 
-        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this,new ArrayList<String>(Arrays.asList(kuy)),mydatabase) ;
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // TODO Auto-generated method stub
+
+                Toast.makeText(getBaseContext(), String.valueOf(hasFocus),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //***setOnQueryTextListener***
+        search.setOnQueryTextListener(new OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // TODO Auto-generated method stub
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // TODO Auto-generated method stub
+
+                Toast.makeText(getBaseContext(), newText,
+                Toast.LENGTH_SHORT).show();
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+
+
+
+
 
        // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,kuy);
-        setListAdapter(adapter);
+        listv.setAdapter(adapter);
     }
 
 

@@ -13,7 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Button ;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.support.v7.app.ActionBarActivity;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.* ;
 
 import android.database.Cursor;
@@ -26,10 +31,11 @@ import java.io.IOException;
  * Created by MacBookAir on 4/3/15 AD.
  */
 
-public class MySimpleArrayAdapter extends ArrayAdapter<String> {
+public class MySimpleArrayAdapter extends ArrayAdapter<String> implements Filterable {
     private final Context context;
-    private final ArrayList<String> values;
-
+    private final ArrayList<String> valuesA;
+    private ArrayList<String> Filtervalues ;
+    private ItemFilter mFilter = new ItemFilter();
     private SQLiteDatabase dataB ;
     private Cursor resultSet ;
     //public SQLiteDatabase mydatabase;
@@ -39,18 +45,117 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
 
         super(context, R.layout.row_in_list,values);
         this.context = context;
-        this.values = values;
+        this.valuesA = values;
         this.dataB = data ;
+        this.Filtervalues = values ;
+    }
+    @Override
+    public Filter getFilter() {
+        return mFilter;
+    }
+         /*
+    }
+        return new Filter() {
+            @Override
+
+            public FilterResults performFiltering(CharSequence constraint) {
+                final FilterResults oReturn = new FilterResults();
+                final ArrayList<String> results = new ArrayList<String>();
+
+                if (constraint != null) {
+                    for(int i = 0  ; i < valuesA.size() ; i++) {
+                        String g = valuesA.get(i) ;
+                        if (context.toString().toLowerCase()
+                                .contains(constraint.toString()))
+                            results.add(g) ;
+                    }
+                    oReturn.values = results;
+                }
+                return oReturn;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint,
+                                          FilterResults results) {
+                valuesA = (ArrayList<String>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+    */
+         public int getCount() {
+             return Filtervalues.size();
+         }
+
+    public String getItem(int position) {
+        return Filtervalues.get(position);
     }
 
-    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    private class ItemFilter extends Filter {
+             @Override
+             protected FilterResults performFiltering(CharSequence constraint) {
+
+                 Cursor resultSet2 = dataB.rawQuery("Select ID from SoundInfo6",null);
+
+
+
+                 String filterString = constraint.toString().toLowerCase();
+
+                 FilterResults results = new FilterResults();
+
+                 final List<String> list = valuesA;
+
+                 int count = list.size();
+                 final ArrayList<String> nlist = new ArrayList<String>(count);
+
+                 String filterableString;
+
+                 for (int i = 0; i < count; i++) {
+                     filterableString = list.get(i);
+                     String f = "%"+filterString+"%" ;
+                     resultSet2.moveToPosition(i);
+                     int idpart = resultSet2.getInt(0);
+                     if(dataB.rawQuery("Select * from SoundStruct where ID = "+idpart+" AND Name LIKE '"+f+"'",null).getCount() != 0 || filterString == null){
+                         nlist.add(filterableString);
+                     }
+                     /*
+                     filterableString = list.get(i);
+                     if (filterableString.toLowerCase().contains(filterString)) {
+                         nlist.add(filterableString);
+                     }*/
+                 }
+
+
+                 results.values = nlist;
+                 results.count = nlist.size();
+                 if(filterString.length() <= 0) {
+                    results.values = valuesA ;
+                 }
+                 return results;
+
+             }
+
+             @SuppressWarnings("unchecked")
+             @Override
+             protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
+                 Filtervalues = (ArrayList<String>) results.values;
+
+                 notifyDataSetChanged();
+             }
+         }
+        @Override
     public View getView(final int position, View convertView,final ViewGroup parent) {
         final String deleter = getItem(position) ;
         //final MySimpleArrayAdapter test = this;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.row_in_list, parent, false);
-        String[] text = values.get(position).split(",,") ;
+        String[] text = Filtervalues.get(position).split(",,") ;
         TextView textView = (TextView) rowView.findViewById(R.id.firstLine);
         textView.setText(text[0]) ;
         TextView textView2 = (TextView) rowView.findViewById(R.id.secondLine) ;
@@ -110,3 +215,4 @@ public class MySimpleArrayAdapter extends ArrayAdapter<String> {
         return rowView;
     }
 }
+
