@@ -73,7 +73,8 @@ public class MainActivity extends ActionBarActivity {
     private Button play;
     private String tagtext = "test";
     private Button fileview;
-    private Button tan;
+    private Button rectag;
+    private Button soundtag;
     private String id;
     private String filePath;
     private String idfortag;
@@ -117,15 +118,17 @@ public class MainActivity extends ActionBarActivity {
         play = (Button)findViewById(R.id.play);
         fileview = (Button)findViewById(R.id.file);
         editText = (EditText)findViewById(R.id.username);
-        tan = (Button)findViewById(R.id.rectag);
+        rectag = (Button)findViewById(R.id.rectag);
         editText.setText(getText("username"));
         test = (Button)findViewById(R.id.test);
+        soundtag = (Button)findViewById(R.id.soundtag);
         btnSave.setText("Record");
         play.setText("pause");
 
         c = Calendar.getInstance() ;
         a = new Timestamp(c.getTimeInMillis()) ;
-        tan.setEnabled(false);
+        rectag.setEnabled(false);
+        soundtag.setEnabled(false);
         String temp = a.toString() ;
         editText.setText(""+temp.substring(0,temp.length()-4)) ;
         Intent intent2 = this.getIntent() ;
@@ -138,11 +141,12 @@ public class MainActivity extends ActionBarActivity {
         //c.get(Calendar.DATE)
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundInfo6(ID INTEGER PRIMARY KEY,Filename VARCHAR,Name VARCHAR,timestamp VARCHAR,duration INTEGER);");
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundStruct(ID INTEGER,PART INTEGER,Name VARCHAR,TagTime INTEGER);");
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS SoundTag(ID INTEGER,PART INTEGER,Name VARCHAR,TagTime INTEGER);");
         final Cursor resultSet = mydatabase.rawQuery("Select max(ID) from SoundInfo6",null);
         resultSet.moveToFirst();
-        if(resultSet.getString(0) == null){
+        /*if(resultSet.getString(0) == null){
             mydatabase.execSQL("INSERT INTO SoundInfo6 (ID,Filename, Name,timestamp,duration) VALUES (0,'test','test','Soo',0);;");
-        }
+        }*/
 
         //mydatabase.execSQL("INSERT INTO SoundInfo2 (ID,Filename, Name) VALUES (1,'test','test');;");
         //mydatabase.execSQL("CREATE TABLE IF NOT EXISTS TagTable(Filename VARCHAR,Type VARCHAR,Start VARCHAR,End VARCHAR);");
@@ -154,7 +158,68 @@ public class MainActivity extends ActionBarActivity {
 
         //Toast.makeText(context, resultSet.toString(), Toast.LENGTH_SHORT).show();
 
-        tan.setOnClickListener(new OnClickListener() {
+        soundtag.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                c_tag = Calendar.getInstance() ;
+
+                // get prompts.xml view
+                LayoutInflater li = LayoutInflater.from(context);
+                View promptsView = li.inflate(R.layout.prompts, null);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        context);
+
+                // set prompts.xml to alertdialog builder
+                alertDialogBuilder.setView(promptsView);
+
+                final EditText userInput = (EditText) promptsView
+                        .findViewById(R.id.editTextDialogUserInput);
+
+                // set dialog message
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // get user input and set it to result
+                                        // edit text
+                                        //result.setText(userInput.getText());
+                                        tagtext = userInput.getText().toString();
+                                        /*Toast.makeText(getApplicationContext(), tagtext,
+                                                Toast.LENGTH_LONG).show();*/
+
+                                        Cursor tempset = mydatabase.rawQuery("Select max(PART) from SoundTag where ID = "+idfortag,null);
+                                        tempset.moveToFirst();
+                                        String part;
+                                        if(tempset.getString(0) == null){
+                                            part = "1";
+                                        }else {
+                                            part =""+ (tempset.getInt(0)+1);
+                                        }
+                                        mydatabase.execSQL("INSERT INTO SoundTag (ID,PART,Name,TagTime) VALUES ("+idfortag+","+part+",'"+tagtext+"',"+(int)(c_tag.getTime().getTime()-c.getTime().getTime())+");;");
+
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+
+            }
+        });
+
+
+        rectag.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -214,13 +279,18 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+
+
+
+
         btnSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
             public void onClick(View v) {
                 //saveText("username", editText.getText().toString());
-                tan.setEnabled(true);
+                rectag.setEnabled(true);
+                soundtag.setEnabled(true);
                 fileName = editText.getText().toString();
                 if (btnSave.getText() == "Record") {
                     //test
@@ -259,8 +329,14 @@ public class MainActivity extends ActionBarActivity {
                     /////
                     resultSet.moveToFirst();
                     //resultSet.moveToPosition(3);
+                    if(resultSet.getString(0) == null){
+                        id = ""+0;
+                    }else{
+                        id = ""+(resultSet.getInt(0)+1);
+                    }
 
-                    id = ""+(resultSet.getInt(0)+1);
+
+
                     /*if(id == null){
                         id = "1";
                     }*/
@@ -307,7 +383,8 @@ public class MainActivity extends ActionBarActivity {
                     //
                     editText.setText("New Record");
                     btnSave.setText("Record");
-                    tan.setEnabled(false);
+                    rectag.setEnabled(false);
+                    soundtag.setEnabled(false);
                 }
             }
         });

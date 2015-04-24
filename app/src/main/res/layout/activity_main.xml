@@ -65,7 +65,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Record"
+            android:text="part"
             android:id="@+id/rectag"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
@@ -85,12 +85,11 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="TEST_NOTHING _HERE"
             android:id="@+id/textView4"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/imageView14"
-            android:layout_alignStart="@+id/imageView14"
             android:autoText="false"
-            android:textColor="#fffafbff" />
+            android:textColor="#fffafbff"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/test"
+            android:layout_toStartOf="@+id/test" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -110,6 +109,15 @@
             android:text="Medium Text"
             android:id="@+id/timecounter"
             android:layout_below="@+id/username"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tag"
+            android:id="@+id/soundtag"
+            android:layout_below="@+id/test"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
