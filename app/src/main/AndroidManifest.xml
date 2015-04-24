@@ -23,9 +23,7 @@
             android:name=".fileview"
             android:label="@string/title_activity_fileview" >
         </activity>
-        <activity
-            android:name=".playbackitf"
-          >
+        <activity android:name=".playbackitf" >
         </activity>
         <activity
             android:name=".WaveFormView"
@@ -46,6 +44,10 @@
         <activity
             android:name=".SeekTest"
             android:label="@string/title_activity_seek_test" >
+        </activity>
+        <activity
+            android:name=".testrecord"
+            android:label="@string/title_activity_testrecord" >
         </activity>
     </application>
 

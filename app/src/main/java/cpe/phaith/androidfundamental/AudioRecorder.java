@@ -18,7 +18,7 @@ import java.io.IOException;
 
 
 public class AudioRecorder {
-    public static final int RECORDER_SAMPLERATE = 8000;
+    public static final int RECORDER_SAMPLERATE = 44100;
     public static final int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_MONO;
     public static final int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
     public AudioRecord recorder = null;
@@ -26,7 +26,7 @@ public class AudioRecorder {
     public boolean isRecording = false;
     public boolean isPause = true;
     public String filePath = "/sdcard/voice8K16bitmono.pcm";
-    int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
+    int BufferElements2Rec = 2048; // want to play 2048 (2K) since 2 bytes we use only 1024
     int BytesPerElement = 2; // 2 bytes in 16bit format
 
     public AudioRecorder(){
@@ -73,6 +73,7 @@ public class AudioRecorder {
 
         FileOutputStream os = null;
         try {
+            //os = new FileOutputStream(filePath);
             os = new FileOutputStream(filePath,true);
             if(isPause== true) {
                 os = new FileOutputStream(filePath);
