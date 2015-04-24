@@ -103,6 +103,24 @@
             android:layout_below="@+id/rectag"
             android:layout_centerHorizontal="true" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/buttonrecordtest"
+            android:layout_above="@+id/rectag"
+            android:layout_alignRight="@+id/test"
+            android:layout_alignEnd="@+id/test" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/buttonrecordstop"
+            android:layout_below="@+id/rectag"
+            android:layout_toRightOf="@+id/textView4"
+            android:layout_toEndOf="@+id/textView4" />
+
     </RelativeLayout>
 
     <FrameLayout
@@ -132,6 +150,12 @@
             android:text="Files"
             android:id="@+id/file"
             android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timecounter"
+            android:layout_gravity="center_horizontal|top" />
 
     </FrameLayout>
 

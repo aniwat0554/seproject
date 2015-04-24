@@ -48,7 +48,7 @@ public class playbackitf extends ActionBarActivity {
            // mBack.setWidth(20);
             //mBack.
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            Bitmap ring = BitmapFactory.decodeResource(res, R.drawable.ring);
+            Bitmap ring = BitmapFactory.decodeResource(res, R.drawable.abc_btn_check_to_on_mtrl_015);
             mPaint.setShader(new BitmapShader(ring, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
             mOval = new RectF(0, 0, mBack.getWidth(), mBack.getHeight());
             mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
